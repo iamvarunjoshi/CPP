@@ -1,0 +1,39 @@
+//print spiral
+// means that i have to 
+//print first row then last column then last row and then first column
+
+void spiralPrint(int input[][1000], int row, int col){
+
+int rs=0,cs=0,re=row-1,ce=col-1;
+
+if(row==1&&col==1)
+{
+	cout<<input[0][0]<<endl<<" ";
+}
+int count=0;
+
+while(count<row*col)
+{
+	for(int i=cs;i<=ce;i++)
+	{
+		cout<<input[rs][i]<<" ";count++;
+	}rs++;
+
+	for(int i=rs;i<=re;i++)
+	{
+		cout<<input[i][ce]<<" ";count++;
+	}ce--;	
+
+	for(int i=ce;i>=cs;i--)
+	{
+		cout<<input[re][i]<<" ";count++;
+	}re--;
+
+	for(int i=re;i>=rs;i--)
+	{
+		cout<<input[i][cs]<<" ";count++;
+	}cs++;
+
+}
+
+}

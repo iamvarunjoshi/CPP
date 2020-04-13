@@ -1,0 +1,37 @@
+//here given problem is to push all zeroes in an aray to the end of an array.
+appraoch 1:
+
+void PushZeroesEnd(int arr[], int n){
+
+int *helperarray=new int[n];
+std::fill_n(helperarray,n,0);
+for(int i=0,k=0;i<n;i++)
+{
+	if(arr[i]!=0)
+		helperarray[k++]=arr[i];
+}
+for(int i=0;i<n;i++)
+	arr[i]=helperarray[i];
+delete []helperarray;
+
+}
+
+approach 2: 
+
+void PushZeroesEnd(int arr[], int n){
+int left=0;
+for(int i=0;i<n;i++)
+{
+	if(arr[i]!=0)
+		arr[left++]=arr[i];
+}
+for(int i=left;i<n;i++)
+{
+	arr[left]=0;
+}
+
+}
+
+
+
+}

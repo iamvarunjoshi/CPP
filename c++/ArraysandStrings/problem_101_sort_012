@@ -1,0 +1,68 @@
+
+//in this problem what we've to do is count no of 0's 1's and number of 2's and then 
+make an inside the main array place 1's 0's and 2's as much no of times as counted above
+
+void sort012(int arr[], int n)  {  
+	
+	int num0=0;
+	int num1=0;
+	int num2=0;
+
+	for(int i=0;i<n;i++)
+	{
+		if(arr[i]==0)
+			num0++;
+		if(arr[i]==1)
+			num1++;
+		if(arr[i]==2)
+			num2++;
+	}
+ int i=0;
+for(;i<num0;i++)
+{
+    arr[i]=0;
+}
+for(;i<(num0+num1);i++)
+{
+    arr[i]=1;
+}
+for(;i<n;i++)
+{
+    arr[i]=2;
+}
+
+// one more approach to this problem is make another array of all 1's
+//and make two pointer pointing to left and right 
+//if arr[i]==0; assign num[left]=0;and do left++
+//else if its equal to 2 do num[right]=2; and do right++
+
+void sort012(int arr[], int n)  {  
+
+int *helperarray=new int[n];
+
+std::fill_n(helperarray,n, 1)
+
+int left=0,right=n-1;
+
+		for(int i=0;i<n;i++)
+		{
+			if(arr[i]==0)
+			{
+			helperarray[left++]=0;
+			}
+			else if(arr[i]==2)
+			{
+			helperarray[right--]=2;
+			}
+		}
+
+		for(int i=0;i<n;i++)
+		{
+			arr[i]=helperarray[i];
+		}
+
+
+
+}
+
+

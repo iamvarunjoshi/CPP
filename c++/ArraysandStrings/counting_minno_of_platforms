@@ -1,0 +1,51 @@
+//cont minimum no of platform required if arrival and departure time of trains is given.
+//approach 1:
+
+int platformsNeeded(int arrival[], int departure[], int n) {
+
+std::sort(arrival,arrival+n);
+std::sort(departure,departure+n);
+
+int i=1,j=0,plat=1,result=1;
+
+while(i<n&&j<n)
+{
+	if(arrival[i]<=departure[j])
+	{
+		i++;
+		plat_needed++;
+		if(result<plat_needed)
+			result=plat_needed;
+	}else
+	{
+		j++;
+		plat_needed--;
+	}
+}
+
+return result;
+}
+//approach 2:
+
+int platformsNeeded(int arrival[], int departure[], int n) {
+
+int arr[2400]={0};
+for(int i=0;i<n;i++)
+{
+	
+	for(int j=arrival[i];j<departure[j];j++)
+	{
+		arr[j]++;
+	}
+
+}
+int max=INT_MIN;
+for(int i=0;i<2400;i++)
+{
+	if(arr[i]>max)
+		max=arr[i];
+
+}
+
+return max;
+}

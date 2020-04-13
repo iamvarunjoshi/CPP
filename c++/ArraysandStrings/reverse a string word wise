@@ -1,0 +1,36 @@
+//revrse a string word wise
+#include<cstring>
+using namespace std;
+
+void reverseStringWordWise(char input[])
+{
+	int n=strlen(input);
+	
+	int i=0,j=n-1;
+
+	for(;j>i;i++,j--)
+	{
+		char temp=input[j];
+		input[j]=input[i];
+		input[i]=temp;
+	}
+    
+	j=0;
+	for(i=0;i<n;i++)
+	{
+		if(input[i]==' '||i==n-1)
+		{
+            int k=i-1;
+			for(;j<k;j++,k--)
+			{
+				char temp=input[k];
+				input[k]=input[j];
+				input[j]=temp;
+			}
+            j=i+1;
+
+		}
+
+
+	}
+}
