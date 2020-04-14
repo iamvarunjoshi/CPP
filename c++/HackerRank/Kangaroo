@@ -1,0 +1,54 @@
+/*given two kangaroo's
+their coordinates are x1 x2 and thier velocities are v1 and v2:
+given:x2>x1
+*/
+//Brute Force approach:
+
+string kangaroo(int x1, int v1, int x2, int v2) {
+if(v2>v1)
+{
+return "NO";
+}
+else{
+for(int i=1;i<10000;i++)
+{
+    if((x1+v1*i)==(x2+v2*i))
+    {
+        return "YES";
+    }
+
+}
+return "NO";
+}
+}
+
+
+
+
+
+
+//Better approach:
+/*if v2>v1 then dist b/w them will be growing every second  
+if v1==v2 then dist b/w them will remain constant
+else if v1>v2 and 't' i.e ((x2-x1)%(v1-v2))==0 i.e its an integer the two kangaroos's can meet
+*/
+
+
+string kangaroo(int x1, int v1, int x2, int v2) {
+if(v1==v2)
+{
+    return "NO";
+
+}
+else if(v2>v1)
+{
+    return "NO";
+
+}
+else if((x2-x1)%(v2-v1)==0)
+{   return "YES";
+}
+else{
+return "NO";
+}
+}
