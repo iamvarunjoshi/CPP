@@ -1,0 +1,81 @@
+Palindrome substrings
+Send Feedback
+Given a string S, count and return the number of substrings of S that are palindrome.
+Single length substrings are also palindromes. You just need to calculate the count, not the substrings.
+
+
+int countPalindromeSubstrings(char input[]) {
+int count=0;
+#include<cstring>
+
+bool check_palindrome(char s[],int start,int ending)
+{
+    int ans=true;
+    int i,j;
+    for(i=start,j=ending-1;i<j;i++,j--)
+    {
+        if(s[i]!=s[j])
+        {
+            return false;
+        }
+        
+    }
+    
+    
+    return ans;
+}
+
+
+int countPalindromeSubstrings(char input[]) {
+
+    int count=0;
+    
+   /* for (int i = 0; input[i] != '\0'; i++)
+    {
+        for(int j=i+1;j<strlen(input)+1;j++)
+        {	
+            bool ans=check_palindrome(input,i,j);
+                if(ans==true)
+                {
+                    count++;
+                }
+        }
+    }*/
+    for(int i=0;i<strlen(input);i++)
+{
+
+	//for even pairs;
+	int mid=i;
+	count++;
+	int j=1;
+	while(input[mid-j]==input[mid+j]&&mid>=j)
+	{
+		count++;j++;
+	}
+
+	//for odd pairs;
+
+	int midodd1=i-1;
+	int midodd2=i;
+	if(midodd1>=0&&input[midodd1]==input[midodd2]&&midodd2<strlen(input))
+	{
+		count++;
+		int k=1;
+	while(input[midodd1 - k]==input[midodd2 + k]&&midodd1>k)
+	{
+		count++;k++;
+	}
+
+	}
+}
+
+    
+    return count;
+}
+
+
+
+
+
+return count;
+}
