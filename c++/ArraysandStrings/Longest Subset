@@ -1,0 +1,51 @@
+Longest Subset
+Send Feedback
+Given an array, find and return the length of longest subarray containing equal number of 0s and 1s.
+Input Format :
+Line 1 : Integer N, size of array
+Line 2 : Array elements (separated by space)
+Output Format :
+Length of longest subarray
+Contraints :
+1<= N <=10^6
+Sample Input 1 :
+6 
+1 0 0 1 1 1
+Sample Output 1 :
+4    
+Sample Input 2 :
+10 
+1 1 1 0 0 0 1 1 0 0
+Sample Output 2 :
+10
+
+Soln:
+#include <cmath>
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int max(int arr[], int n){
+int ans = 0;
+unordered_map<int,int> m; // to store sum bt far as key and corresponding index
+m[0]=-1; // intialising map with sum=0 with index=-1
+int sum=0;
+// Trick: replace all zeores with -1 and find largest sub array with
+sum=0
+for(int i=0;i<n;i++){
+if(arr[i]==0){
+arr[i]=-1;
+}
+}
+for(int i=0;i<n;i++){
+sum = sum + arr[i];
+if(m.find(sum)!=m.end()){
+if(ans < i-m[sum]){
+ans = i-m[sum];
+}
+}
+else{
+m[sum]=i;
+}
+}
+return ans;
+}
