@@ -1,0 +1,80 @@
+Check if linked list is aplindrome or not:
+
+
+node *findmid(node *head)
+{
+    node *slow=head;
+    node *fast=head->next;
+    
+    while(fast->next!=NULL)
+    {   slow=slow->next;
+        fast=fast->next;
+    if(fast->next==NULL)
+    {
+    return slow;
+    }
+    else{
+        fast=fast->next;
+    }
+    }
+    return slow;
+}
+node *reverse(node *head)
+{
+    if(head==NULL||head->next==NULL)
+    {return head;}
+    
+    node *x=reverse(head->next);
+    node *tail=head->next;
+    tail->next=head;
+    head->next=NULL;
+    return x;
+}
+
+bool check_palindrome(node* head)
+{
+    node *midpt=findmid(head);
+    node *reversed=reverse(midpt->next);
+    node* temp=head;
+while(reversed!=NULL)
+{
+    if(reversed->data!=temp->data)
+    {
+        return false;
+    }
+    
+    reversed=reversed->next;
+    temp=temp->next;
+}
+    return true;
+}
+
+
+Using Stack:
+
+#include<bits/stdc++.h>
+
+bool check_palindrome(node* head)
+{
+	stack<int> s;
+	node *temp=head; 
+    
+    while(temp!=NULL)
+    {
+    	s.push(temp->data);
+        temp=temp->next;
+    }
+	temp=head;
+while(temp!=NULL)
+{
+    if(s.top()!=temp->data)
+    {
+        return false;
+    }
+    s.pop();
+    temp=temp->next;
+}
+    
+return true;
+    
+}

@@ -1,0 +1,42 @@
+Deleting a Node recursively:
+
+Node* deleteNodeRec(Node *head, int i) {
+
+if(head==NULL||i<0)
+{
+    return head;
+}
+else if(i==0)
+{
+    Node *temp =head;
+    head=head->next;
+    delete temp;
+}
+else
+{
+    head->next=deleteNodeRec(head->next,i-1);
+}
+    return head;
+
+    //Much Simple approach
+   /* 
+     if(head==NULL||i<0)
+    {return head;}
+    
+    if(i==0)
+    {
+        Node *temp=head;
+        head=head->next;
+        temp->next=NULL;
+        delete temp;
+        return head;
+    }
+    
+   head->next= deleteNodeRec(head->next,i-1);
+    return head;
+    
+  */  
+}
+
+
+

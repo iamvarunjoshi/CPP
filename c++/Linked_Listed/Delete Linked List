@@ -1,0 +1,90 @@
+
+First approach:
+
+Node* deleteNode(Node *head, int i) {
+	int count=0;
+    Node* temp=head;
+    Node* a=head;
+    
+    if(i<0)
+    {return head;}
+    
+    if(i==0)
+    {
+        temp=temp->next;
+        delete a;
+        return temp;
+    }
+    else{
+        while((count<i-1)&&temp!=NULL)
+        {
+            temp=temp->next;
+            count++;
+        }
+        if(temp->next!=NULL)
+        {Node * a=temp->next;
+        temp->next=a->next;
+        delete a;}
+        return head;
+    }
+
+
+
+
+Recursive Approach:
+Node* deleteNode(Node *head, int i) {
+
+    if(head==NULL||i<0)
+    {return head;}
+    
+    if(i==0)
+    {
+        Node *temp=head;
+        head=head->next;
+        temp->next=NULL;
+        delete temp;
+        return head;
+    }
+    
+   head->next= deleteNode(head->next,i-1);
+    return head;
+}
+
+
+Iterative approach:
+
+Node* deleteNode(Node *head, int i) {
+Node *temp=head;
+
+  if(i==0)
+    {
+        head=head->next;
+        temp->next=NULL;
+        delete temp;
+        return head;
+    }
+
+while(temp!=NULL)
+{
+// if i'm on lat node and still i>0 then it will cause segmentation fault
+    if(i>=1&&temp->next==NULL)
+    {
+        break;
+    }
+
+    if((i--)==1)
+    {
+        Node *tobedeleted=temp->next;
+        temp->next=temp->next->next;
+        tobedeleted->next=NULL;
+        delete tobedeleted;
+        break;
+    }
+    else{
+        temp=temp->next;
+    }
+
+}
+
+return head;
+}

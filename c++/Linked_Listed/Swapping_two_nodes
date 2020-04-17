@@ -1,0 +1,79 @@
+Swaping two nodes:
+
+
+node* swap_nodes(node *head,int i,int j)
+{
+    
+	if(i==0&&j==1||j==0&&i==1)
+    {
+        node * start=head;
+        node *second=head->next;
+        node *nexttosecond;
+        if(second->next!=NULL)
+        	nexttosecond=second->next;
+        else
+        {
+        	second->next=start;
+            start->next=NULL;
+            return second;
+        }
+        start->next=nexttosecond;
+        second->next=start;
+        head=second;
+        return head;
+    }
+    
+    node *node1=NULL;
+    node *node2=NULL;
+    
+    node*temp=head;
+    int pos=0;
+    
+    while(temp!=NULL)
+    {
+        if(pos==i-1)
+        {
+            node1=temp;
+        }
+        if(pos==j-1)
+        {
+            node2=temp;
+        }
+        
+        temp=temp->next;
+        
+        pos++;
+    }
+    if(i==0||j==0)
+    {
+    	node * nexttostart=head->next;
+        node * prevnode=(node1!=NULL)?node1:node2;
+        node *currentnode=prevnode->next;
+        head->next=currentnode->next;
+        prevnode->next=head;
+		currentnode->next=nexttostart;        
+        head=currentnode;
+        return currentnode;
+     }
+    if(i==j+1||j==i+1)
+    {
+        node *prevtoconsec=(i<j)?node1:node2;
+        node * ending=prevtoconsec->next->next->next;
+        node *consec1=prevtoconsec->next;
+        node *consec2=consec1->next;
+        prevtoconsec->next=consec2;
+        consec2->next=consec1;
+        consec1->next=ending;
+        return head;
+    }
+    node *current1=node1->next;
+    node *current2=node2->next;
+    
+    node1->next=current2;
+    node2->next=current1;	
+	node * nexttocurrent1=current1->next;
+    current1->next=current2->next;
+    current2->next=nexttocurrent1;
+    
+    return head; 
+    }

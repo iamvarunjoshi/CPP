@@ -1,0 +1,34 @@
+Insert Node inside a linked List:
+
+
+Node* insertNodeRec(Node *head, int i, int data) {
+	
+    
+    if(i==0)
+    {
+      	Node * newNode=new Node(data);
+        newNode->next=head;
+        head=newNode;
+    }
+    else if(i>1&&head->next==NULL)
+    {
+        //if my i>1 and I'm on next NULL that means return head as no updation will be done
+        return head;
+    }
+    else if(head->next==NULL&&i==1)
+    {
+        //I'm on last position and i've to go to only one index ahead, that means add that element 
+        Node * newNode=new Node(data);
+        head->next=newNode;
+    }
+    else
+    {
+        head->next =insertNodeRec(head->next,i-1,data);
+    }
+    
+    return head;
+
+}
+
+
+

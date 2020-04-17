@@ -1,0 +1,27 @@
+Finding Length of linked list:
+
+Recursive Soln:
+
+int length(Node *head)
+{
+	if(head==NULL)
+		return 0;
+int len= length(head->next)+1;
+
+return len;
+
+}
+
+Iterative Soln:
+
+int length(Node *head)
+{
+	int len=0;
+	while(head!=NULL)
+	{
+		len++;
+		head=head->next;
+	}
+	
+	return len;
+}

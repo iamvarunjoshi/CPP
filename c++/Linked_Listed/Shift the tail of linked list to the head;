@@ -1,0 +1,43 @@
+Shift the tail of linked list to the head;
+
+/*************
+ Following is the Node structure already written.
+
+ template <typename T>
+ class Node {
+    public:
+    T data;
+    Node* next;
+ 
+    Node(T data) {
+ next = NULL;
+ this->data = data;
+    }
+ 
+    ~Node() {
+ if (next != NULL) {
+ delete next;
+ }
+    }
+ };
+ 
+*************/
+
+Node<int>* moveToFront(Node<int> *head) {
+	Node<int> *temp=head;
+    if(head->next==NULL)
+    {
+        return head;
+    }
+    
+    while(temp->next->next!=NULL)
+    {
+     temp=temp->next;   
+    }
+    //newfront is having address of the last node.
+	Node<int> * newfront=temp->next;
+    newfront->next=head;
+    temp->next=NULL;
+    head=newfront;
+    return head;
+}

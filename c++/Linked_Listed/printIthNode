@@ -1,0 +1,37 @@
+Print i'th element of Linked List.
+	where i==0 is head of linked list.
+
+Approach one: In which first we compare and then we reduce the position.
+
+Iterative Soln:
+
+void printIthNode(Node *head, int i) 
+{
+	while(head!=NULL)
+    {
+      if((i--)==0)
+            cout<<head->data;
+      
+         if(i<0)
+        	break;
+
+        head=head->next; 
+    }
+      
+}
+
+Recursive Soln:
+
+void printIthNode(Node *head, int i) 
+{
+	if(head==NULL||i<0)
+		return;
+
+	if(i==0&&head!=NULL)
+	{
+		cout<<head->data;return;
+	}
+
+	printIthNode(head->next,i-1);
+}
+
