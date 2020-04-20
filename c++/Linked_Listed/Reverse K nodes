@@ -1,0 +1,127 @@
+Reverse K nodes
+
+Approach one:
+//head is the head of the linked list, n is number of elements to be reversed
+// Following is the node structure
+/**************
+class node{
+public:
+    int data;
+    node * next;
+    node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+};
+***************/
+
+node * strrev(node * head)
+{
+    if(head->next==NULL)
+        return head;
+    
+    node * tail=head->next;
+    node *reversedlist=strrev(head->next);
+    head->next=NULL;
+    tail->next=head;
+    
+    return reversedlist;    
+}
+
+
+node* kReverse(node*head,int k)
+{
+    
+if(k==0)
+return head;    
+
+if(head==NULL||head->next==NULL)
+    return head;
+    
+node *temp=head;	node *tail=head;	node *nexthead=NULL;
+int count=0;    
+    
+while(temp!=NULL)
+{
+    count++;
+    if(count==k)
+    {
+        nexthead=temp->next;
+        temp->next=NULL;
+        head = strrev(head);
+        break;
+    }
+    else if(count<k&&temp->next==NULL)
+    {
+        nexthead=temp->next;
+        temp->next=NULL;
+        head = strrev(head);
+        break;
+    }
+    temp=temp->next;
+}
+    tail->next=kReverse(nexthead,k);
+    return head;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Approach two:
+
+node *reverse_linked_list(node *head)
+{
+if(head==NULL||head->next==NULL)
+return head;
+node* smallhead=reverse_linked_list(head->next);
+head->next->next=head;
+head->next=NULL;
+return smallhead;
+}
+node* kReverse(node*head,int n)
+{
+if(n==1)
+return head;
+int i=1;
+node*temp=head,*head1=head,*head2=head;
+while(temp!=NULL)
+{
+if(i%n==0||temp->next==NULL)
+{
+node*head3=temp->next;
+temp->next=NULL;
+node*h=head2;
+head2=reverse_linked_list(head2);
+if(head1==head){
+head1=head2;
+head=head2;
+}
+else
+head1->next=head2;
+h->next=head3;
+head1=h;
+head2=head3;
+temp=head3;
+}
+else{
+temp=temp->next;
+}
+i++;
+}
+return head;
+}
+
+
+here's my solution to it:

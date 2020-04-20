@@ -1,0 +1,107 @@
+Delete every N nodes
+Send Feedback
+Given a linked list and two integers M and N. Traverse the linked list such that you retain M nodes then delete next N nodes, continue the same until end of the linked list. That is, in the given linked list you need to delete N nodes after every M nodes.
+Input format :
+
+Line 1 : Linked list elements (separated by space and terminated by -1)
+
+Line 2 : M
+
+Line 3 : N
+
+Sample Input 1 :
+1 2 3 4 5 6 7 8 -1
+2
+2
+Sample Output 1 :
+1 2 5 6
+Sample Input 2 :
+1 2 3 4 5 6 7 8 -1
+2
+3
+Sample Output 2 :
+1 2 6 7
+
+Main Code
+
+
+// Following is the node structure
+/**************
+class node{
+public:
+    int data;
+    node * next;
+    node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+};
+***************/
+
+node * deletenodes(node* head,int n)
+{
+    if(head==NULL||head->next==NULL)
+        return NULL;
+    
+    node *temp=head;
+    int count=0;
+    node *ans=NULL;
+    
+	while(temp!=NULL)
+    {
+        count++;
+        if(count==n)
+        {
+            ans=temp->next;
+            temp->next=NULL;
+            delete head;
+            break;
+        }
+        else if(count<n&&temp->next==NULL)
+            return NULL;
+
+        temp=temp->next;
+    }
+    return ans;
+}
+
+
+
+node* skipMdeleteN(node  *head, int m, int n) {
+    if(m==0)
+        return NULL;
+    if(n==0)
+        return head;
+    if(head==NULL||head->next==NULL)
+        return head;
+
+    
+    int count=0;
+    node * temp=head;
+    node *tail=NULL;
+    
+    while(temp!=NULL)
+    {
+        count++;
+        
+        if(count==m)
+        {
+         tail=temp;
+    	 node*nexthead=temp->next;
+         temp->next=NULL;
+         tail->next=deletenodes(nexthead,n);
+		break;
+        }
+        
+        else if(count<m&&temp->next==NULL)
+        {
+    		return head;
+            break;        
+        }
+        temp=temp->next;
+    }
+    
+	tail->next=skipMdeleteN(tail->next,m,n);
+    return head;
+    
+}
