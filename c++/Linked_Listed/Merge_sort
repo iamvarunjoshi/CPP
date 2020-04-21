@@ -1,0 +1,114 @@
+Code: Merge Sort
+Send Feedback
+Sort a given linked list using Merge Sort.
+You don't need to print the elements, just sort the elements and return the head of updated LL.
+Input format :
+Linked list elements (separated by space and terminated by -1)
+Output format :
+Updated LL elements (separated by space)
+Constraints :
+1 <= Length of LL <= 1000
+Sample Input 1 :
+1 4 5 2 -1
+Sample Output 1 :
+1 2 4 5
+
+
+// Following is the node structure
+/**************
+class node{
+public:
+    int data;
+    node * next;
+    node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+};
+***************/
+
+node* mergeTwoLLs(node *head1, node *head2) {
+
+if(head1 == NULL||head2==NULL)
+    return (head1==NULL)?head2:head1;
+ 
+    node * truehead=NULL;
+    node * truetail=NULL;
+    
+    while(head1!=NULL&&head2!=NULL)
+    {
+        node * newNode;
+        
+        if(head1->data<head2->data)
+        {
+        newNode=head1;
+        head1=head1->next;
+		newNode->next=NULL;
+        }
+        else{
+        newNode=head2;
+        head2=head2->next;
+		newNode->next=NULL;    
+        }
+        
+        if(truehead==NULL&&truetail==NULL)
+        {
+            truehead=newNode;
+            truetail=newNode;
+        }
+        else{
+            truetail->next=newNode;
+            truetail=truetail->next;
+        }
+    }
+while(head1!=NULL)
+{
+    truetail->next=head1;
+    truetail=truetail->next;
+    head1=head1->next;
+}
+        
+        
+while(head2!=NULL)
+{
+    truetail->next=head2;
+    truetail=truetail->next;
+    head2=head2->next;
+}
+    
+    truetail->next=NULL;
+    return truehead;
+}
+
+
+node* midpoint_linkedlist(node *head)
+	{	node *slow=head;
+        node *fast=head->next;
+    
+    while(fast!=NULL)
+    {
+        if(fast->next==NULL)
+        {return slow;}//when my fast->next==NULL i.e. even linked list
+        fast=fast->next->next;
+        slow=slow->next;
+    }
+    return slow;//this is when fast==NULL i.e. odd list
+
+}
+
+
+node* mergeSort(node *head) {
+
+    if(head->next==NULL||head==NULL)
+        return head;
+    
+    node * midpt =midpoint_linkedlist(head);
+	node *temp=midpt->next;
+    midpt->next=NULL;
+    node* leftnode= mergeSort(head);
+    node* rightnode= mergeSort(temp);
+    
+    head= mergeTwoLLs(leftnode,rightnode);
+    
+    return head;
+}
