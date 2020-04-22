@@ -1,0 +1,72 @@
+Insertion Sort(Iteratively) LinkedList
+Send Feedback
+Sort a given linked list using Insertion Sort (iteratively).
+You don't need to print the elements, just sort the elements and return the head of updated LL.
+Input format : Linked list elements (separated by space and terminated by -1)`
+
+Sample Input 1 :
+1 4 5 2 -1
+Sample Output 1 :
+1 2 4 5
+
+
+// Following is the node structure
+/**************
+class node{
+public:
+    int data;
+    node * next;
+    node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+};
+***************/
+
+
+
+node* addnode(node*head,node* newnode)
+{
+    if(newnode==NULL)
+        return head;
+    
+    if(head==NULL)
+    	return newnode;
+    
+    if(newnode->data<head->data)
+    {	newnode->next=head;
+     	head=newnode;
+    }
+    else{
+        // newnode data is bigger than current node data. 
+        node*current=head;
+        while (current->next!=NULL && (current->next->data) < (newnode->data)) 
+        { 
+            current = current->next; 
+        } 
+        newnode->next = current->next; 
+        current->next = newnode; 
+    }    
+    return head;
+}
+
+node* insertion_sort_LinkedList_itr(node* head)
+{   
+    if(head->next==NULL)
+        return head;
+    
+    
+    node* sortedll=NULL;
+    node*current=head;
+    
+    while(current!=NULL)
+    {	node* temp=current->next;
+        current->next=NULL;
+     	
+     	sortedll=addnode(sortedll,current);
+     
+    	current=temp;
+    }
+    head=sortedll;
+return head;
+}
