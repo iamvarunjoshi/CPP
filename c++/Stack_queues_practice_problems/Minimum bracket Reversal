@@ -1,0 +1,72 @@
+Minimum bracket Reversal
+Send Feedback
+Given a string expression which consists only ‘}’ and ‘{‘. The expression may not be balanced. You need to find the minimum number of bracket reversals which are required to make the expression balanced.
+Return -1 if the given expression can't be balanced.
+Input Format :
+String S
+Output Format :
+Required count
+Sample Input 1 :
+{{{
+Sample Output 1 :
+-1
+Sample Input 2 :
+{{{{}}
+Sample Output 2 :
+1
+
+#include<stack>
+#include<cstring>
+
+int countBracketReversals(char input[]){
+int ans=0;
+    if(strlen(input)%2!=0)
+        	return -1;
+    
+    
+	stack<char> heap;    
+    for(int i=0;i<strlen(input);i++)
+    {    
+        if(input[i]=='{')
+            heap.push(input[i]);
+        else{
+            if(heap.top()=='}')
+            {
+                heap.push(input[i]);
+             }
+            else if(heap.empty())
+            {
+                heap.push(input[i]);
+            }
+            else
+            {
+                heap.pop();
+            }
+        }
+        
+    }
+    
+    if(heap.empty())
+		return -1;
+    
+    char c1,c2;
+    
+    while(!heap.empty())
+    {
+     	c1=heap.top();
+    	heap.pop();
+        if(heap.empty())
+            return -1;
+        
+        c2=heap.top();
+        heap.pop();
+        
+        if(c1==c2)
+            ans++;
+        if(c1!=c2)
+            ans++;
+    }
+    
+        
+return ans;
+}

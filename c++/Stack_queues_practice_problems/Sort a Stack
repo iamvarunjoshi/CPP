@@ -1,0 +1,91 @@
+Sort a Stack
+Send Feedback
+Given a stack, sort the elements inside that stack in ascending order using only push and pop operation. You can use one additional stack only.
+For eg.
+
+Input Stack :  5 (top)
+               4
+               3
+               2
+               1
+Output Stack : 1 (top)
+               2
+               3
+               4
+               5
+Input format :
+
+Line 1 : No. of elements in stack
+
+Line 2 : Stack elements (separated by space)
+
+Sample Input
+5
+1 2 3 4 5
+Sample Output
+1 2 3 4 5
+
+#include<bits/stdc++.h>
+#include <stack>
+
+using namespace std;
+
+void sortStack(stack<int> &s){
+
+/*int n=s.size();
+int * arr=new int[n];
+    
+    for(int i=0;i<n;i++)
+    {
+        arr[i]=s.top();
+        s.pop();
+    }
+    cout<<endl;
+  std::sort(arr,arr+n);
+    
+    for(int i=n-1;i>=0;i--)
+    {
+       s.push(arr[i]);
+    }
+    */
+stack<int> temp;    
+    
+while(!s.empty())
+{
+    int stacktemp=s.top();
+    s.pop();
+
+    if(temp.empty())
+    {
+        temp.push(stacktemp);
+        continue;
+    }
+    
+    if(stacktemp>temp.top())
+    {
+        temp.push(stacktemp);
+    }
+    else
+    {
+        while(!temp.empty())
+        {
+            if(temp.top()>stacktemp)
+            {
+            s.push(temp.top());
+            temp.pop();
+            }
+            else 
+            {
+                break;
+            }
+        }
+        temp.push(stacktemp);
+    }
+}
+while(!temp.empty())
+{
+    s.push(temp.top());
+    temp.pop();
+}
+
+}
