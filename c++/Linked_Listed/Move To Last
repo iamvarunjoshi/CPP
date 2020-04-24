@@ -1,0 +1,98 @@
+Move To Last
+Send Feedback
+Given a linked list and a key in it, the task is to move all occurrences of given key to end of linked list, keeping order of all other elements same.
+Return the updated head of LL.
+Input Format :
+Line 1 : Elements of the linked list ending with -1 (-1 not included)
+Line 2 : Key n, Element which has to shifted
+Output Format :
+Updated linked list
+Constraints :
+1 <= size of list <= 100
+Sample Input 1:
+1 2 2 3 4 5 -1
+2
+Sample Output 1:
+1 3 4 5 2 2 
+Sample Input 2:
+1 1 2 3 4 -1
+1
+Sample Output 2:
+2 3 4 1 1
+
+/*************
+ Following is the Node<int> structure already written.
+
+ template <typename T>
+ class Node {
+	public:
+	T data;
+	Node* next;
+ 
+	Node(T data) {
+        next = NULL;
+        this->data = data;
+	}
+ 
+	~Node() {
+        if (next != NULL) {
+            delete next;
+        }
+	}
+ };
+ 
+*************/
+
+
+
+Node<int>* func(Node<int> *head,int n) {
+        
+    if(head==NULL||head->next==NULL)
+        return head;
+    
+    Node<int> *list1 = NULL;
+    Node<int> *list1tail = NULL;
+    Node<int>* list2 = NULL;
+ 	Node<int> *list2tail = NULL;   
+ 
+    Node<int>* currentnode=head;
+    
+    while(currentnode!=NULL)
+    {
+        Node<int>* newnode=currentnode;
+        currentnode=currentnode->next;
+        if(newnode->next!=NULL)
+            newnode->next=NULL;
+        
+        if(newnode->data==n)
+        {
+            if(list2==NULL&&list2tail==NULL)
+            {   list2=newnode;
+                list2tail=newnode;
+            }
+            else
+            {   list2tail->next=newnode;
+                list2tail=list2tail->next;
+            }
+        }
+        else
+        {
+            if(list1==NULL&&list1tail==NULL)
+            {	list1=newnode;
+                list1tail=newnode;
+            }
+            else
+            {   list1tail->next=newnode;
+                list1tail=list1tail->next;
+            }
+        }     
+    }
+        list1tail->next=list2;
+        list2tail->next=NULL;
+        
+        return list1;
+    }    
+        
+    
+    
+
