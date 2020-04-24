@@ -1,0 +1,50 @@
+Find height
+Send Feedback
+Given a generic tree, find and return the height of given tree.
+Input format :
+Elements in level order form separated by space (as per done in class). Order is - 
+Root_data, n (No_Of_Child_Of_Root), n children, and so on for every element 
+Output Format :
+Height
+Sample Input :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output :
+3
+
+
+// Following is the given Tree node structure.
+/**************
+ template <typename T>
+ class TreeNode {
+    public:
+        T data;
+        vector<TreeNode<T>*> children;
+ 
+        TreeNode(T data) {
+            this->data = data;
+        }
+ 
+        ~TreeNode() {
+            for (int i = 0; i < children.size(); i++) {
+                delete children[i];
+            }
+        }
+ };
+***************/
+
+int height(TreeNode<int>* root) {
+if(root==NULL)
+    return 0;
+if(root->children.size()==0)
+    return 1;
+    
+int ht=1;
+int newht=0;
+for(int i=0;i<root->children.size();i++)
+{
+    newht=max(newht,height(root->children[i]));
+    ht=newht+1;
+}
+return ht;
+}
+
