@@ -1,0 +1,69 @@
+Second Largest Element In Tree
+Send Feedback
+Given a generic tree, find and return the node with second largest value in given tree. Return NULL if no node with required value is present.
+Input format :
+Elements in level order form separated by space (as per done in class). Order is - 
+
+Root_data, n (No_Of_Child_Of_Root), n children, and so on for every element 
+Output format:
+Second Largest node data
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1 :
+40
+
+// Following is the given Tree node structure
+/**************
+
+class TreeNode {
+	TreeNode<T>** children;
+	int childCount;
+
+	public:
+	T data;
+
+	TreeNode(T data);	// Constructor
+	int numChildren();
+	void addChild(TreeNode<T>* child);
+	TreeNode<T>* getChild(int index);
+	void setChild(int index, TreeNode<T>* child);
+};
+
+***************/
+#include<climits>
+
+void secLargest(TreeNode<int>* root,TreeNode<int>* &largest,TreeNode<int>* &secLarge)
+{
+	if(root==NULL)
+        return;
+    
+    if(largest==NULL||largest->data<root->data)
+    {
+        secLarge=largest;
+        largest=root;
+    }
+    //    if((secLarge==NULL||root->data>secLarge->data)&&root->data!=largest->data)
+    if(secLarge==NULL&&root->data!=largest->data||root->data!=largest->data&&root->data>secLarge->data)
+        secLarge=root;
+    
+    for(int i=0;i<root->numChildren();i++)
+    {
+        secLargest(root->getChild(i),largest,secLarge);
+        
+    }
+    
+}
+
+TreeNode <int>* secondLargest(TreeNode<int> *root) {
+
+TreeNode<int>* largest=NULL;
+TreeNode<int>* secLarge=NULL;
+    
+    secLargest(root,largest,secLarge);
+    
+//cout<<largest->data<<" "<<secLarge->data<<endl;
+    //if(secLarge)
+    
+return secLarge;    
+}
+

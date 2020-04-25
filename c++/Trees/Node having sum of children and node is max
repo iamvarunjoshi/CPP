@@ -1,0 +1,118 @@
+Node having sum of children and node is max
+Send Feedback
+Given a tree, find and return the node for which sum of data of all children and the node itself is maximum. In the sum, data of node itself and data of immediate children is to be taken.
+Input format :
+
+Line 1 : Elements in level order form separated by space (as per done in class). Order is -
+
+Root_data, n (No_Of_Child_Of_Root), n children, and so on for every element
+
+Output format : Node with maximum sum.
+
+Sample Input 1 :
+5 3 1 2 3 1 15 2 4 5 1 6 0 0 0 0
+Sample Output 1 :
+1
+
+// Following is the given Tree node structure
+/**************
+
+class TreeNode {
+	TreeNode<T>** children;
+	int childCount;
+
+	public:
+	T data;
+
+	TreeNode(T data);	// Constructor
+	int numChildren();
+	void addChild(TreeNode<T>* child);
+	TreeNode<T>* getChild(int index);
+	void setChild(int index, TreeNode<T>* child);
+};
+
+***************/
+class Pair{
+    public:
+    TreeNode<int>*root;
+    int sum;
+    Pair()
+    {
+        root=NULL;
+        sum=0;
+    }
+    
+    Pair(TreeNode<int>*root,int sum)
+    {
+        this->root=root;
+        this->sum=sum;
+    }
+};
+
+int sumofchildren(TreeNode<int>* root)
+{
+    if(root==NULL)
+        return 0;
+    
+    int sum=root->data;
+    for(int i=0;i<root->numChildren();i++)
+    {
+    	sum=sum+root->getChild(i)->data;    
+    }
+    return sum;
+}
+
+/*
+TreeNode<int>* maxSumNode(TreeNode<int> *root){
+    
+    if(root==NULL||root->numChildren()==0)
+        return root;
+    
+    TreeNode<int>* ans=root;
+    int anssum=sumofchildren(root);
+    for(int i=0;i<root->numChildren();i++)
+    {  	TreeNode<int>* temp=maxSumNode(root->getChild(i));
+        int tempsum=sumofchildren(temp);
+        if(tempsum>anssum)
+        {   ans=temp;
+            anssum=tempsum;
+        }
+    }
+        
+    
+//cout<<ans->data<<" "<<anssum<<endl;
+    
+return ans;
+}
+*/
+Pair* helper(TreeNode<int>* root)
+{
+   
+    if(root->numChildren()==0)
+    {
+        Pair* ans=new Pair(root,root->data);
+        return ans;
+    } 
+    
+    
+    Pair * ans = new Pair(root,sumofchildren(root));
+    
+    for(int i=0;i<root->numChildren();i++)
+    {
+        Pair * temp = helper(root->getChild(i));
+        if(temp->sum>ans->sum)
+        {
+            ans=temp;
+        }
+        
+    }
+	return ans;
+}
+
+
+TreeNode<int>* maxSumNode(TreeNode<int> *root)
+{
+  Pair * ans = helper(root);
+    
+    return ans->root;   
+}
