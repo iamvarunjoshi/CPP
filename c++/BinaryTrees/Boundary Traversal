@@ -1,0 +1,95 @@
+Boundary Traversal
+Send Feedback
+Given a binary tree having N nodes, print its boundary traversal.
+Input format :
+Line 1 : Nodes in level order form (separated by space). If any node does not have left or right child, take -1 in its place
+Output format :
+Boundary traversal (separated by space)
+Constraints :
+1 <= N <= 10^5
+Sample Input 1 :
+1 2 3 -1 -1 -1 -1
+Sample Output 1 :
+1 2 3
+Sample Input 2 :
+1 2 3 4 5 7 -1 -1 -1 6 -1 -1 8 -1 -1 -1 -1
+Sample Output 2 :
+1 2 4 6 8 7 3
+
+// Following is the Binary Tree node structure
+/**************
+class BinaryTreeNode {
+    public : 
+    T data;
+    BinaryTreeNode<T> *left;
+    BinaryTreeNode<T> *right;
+
+    BinaryTreeNode(T data) {
+        this -> data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+***************/
+void leftboundary(BinaryTreeNode<int>* root)
+{
+    if(root==NULL||root->left==NULL&&root->right==NULL)
+        return;
+    
+    if(root->left!=NULL)
+    { cout<<root->data<<" ";
+    	leftboundary(root->left);
+    	return;
+    }
+    
+    if(root->left==NULL&&root->right!=NULL)
+    {
+        cout<<root->data<<" ";
+        leftboundary(root->right);
+    }
+    
+    
+} 
+    
+void rightboundary(BinaryTreeNode<int>* root)
+{
+    if(root==NULL||root->left==NULL&&root->right==NULL)
+        return;
+    
+    rightboundary(root->right);
+    
+    if(root->left!=NULL&&root->right==NULL)
+    {
+        rightboundary(root->left);
+        cout<<root->data<<" ";
+    }
+    else   
+    cout<<root->data<<" ";
+    
+    
+    
+}
+    
+void printnodes(BinaryTreeNode<int>* root)
+{
+    if(root==NULL)
+        return;
+    
+    if(root->left==NULL&&root->right==NULL)
+        cout<<root->data<<" ";
+    
+    printnodes(root->left);
+    printnodes(root->right);
+    
+}
+    
+void solve(BinaryTreeNode<int>* root){
+
+    cout<<root->data<<" ";
+    
+    leftboundary(root->left);
+	printnodes(root->left);
+    printnodes(root->right);
+    rightboundary(root->right);
+   
+}

@@ -1,0 +1,97 @@
+Longest Leaf to root path
+Send Feedback
+Given a binary tree, return the longest path from leaf to root. Longest means, a path which contain maximum number of nodes from leaf to root.
+Input format :
+
+Elements in level order form (separated by space)
+
+(If any node does not have left or right child, take -1 in its place)
+
+Line 1 : Binary Tree 1 (separated by space)
+
+Sample Input 1 :
+ 5 6 10 2 3 -1 -1 -1 -1 -1 9 -1 -1
+Sample Output 1 :
+9
+3
+6
+5
+
+
+
+// Following is the Binary Tree node structure
+/**************
+class BinaryTreeNode {
+    public : 
+    T data;
+    BinaryTreeNode<T> *left;
+    BinaryTreeNode<T> *right;
+
+    BinaryTreeNode(T data) {
+        this -> data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+***************/
+class Pair
+{
+    public:
+    
+    vector<int>* path;
+    int sum;
+    
+    Pair()
+    {
+        sum=0;
+        path=new vector<int>;
+    }
+    
+    Pair(int num)
+    {
+        sum=num;
+        path=new vector<int>;
+    }
+};
+
+
+Pair* helper(BinaryTreeNode<int>* root)
+{
+    if(root==NULL)
+    {
+        Pair * ans=new Pair(0);
+        return ans;
+    }
+        
+    Pair* left=helper(root->left);
+    Pair* right=helper(root->right);
+    
+    Pair* ans;
+        
+    if(left->path->size()>right->path->size())
+    {
+     ans=left;   
+    }
+    else
+    {
+        ans=right;
+    }
+    
+    ans->sum=ans->sum+root->data;
+    ans->path->push_back(root->data);
+    return ans;
+    
+}
+
+
+
+
+vector<int>* longestPath(BinaryTreeNode<int>* root) {
+
+    Pair* ans=helper(root);
+    
+    if(ans==0)
+        return 0;
+        
+    return ans->path;    
+}
