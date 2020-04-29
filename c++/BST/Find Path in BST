@@ -1,0 +1,55 @@
+Find Path in BST
+Send Feedback
+Given a BST and an integer k. Find and return the path from the node with data k and root (if a node with data k is present in given BST). Return null otherwise.
+Assume that BST contains all unique elements.
+Input Format :
+Line 1 : Elements in level order form (separated by space)
+(If any node does not have left or right child, take -1 in its place)
+Line 2 : Integer k
+Output Format :
+Path from node k to root
+Sample Input :
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+2
+Sample Output :
+2
+5
+8
+
+
+
+// Following is the Binary Tree node structure
+/**************
+class BinaryTreeNode {
+    public : 
+    T data;
+    BinaryTreeNode<T> *left;
+    BinaryTreeNode<T> *right;
+
+    BinaryTreeNode(T data) {
+        this -> data = data;
+        left = NULL;
+        right = NULL;
+    }
+};
+***************/
+
+vector<int>* findPath(BinaryTreeNode<int> *root , int k){
+
+    vector<int>* ans=NULL;
+
+    if(root->data==k)
+    {	ans=new vector<int>;
+        ans->push_back(root->data);
+        return ans;
+    }
+    
+        if(root->data>k&&root->left!=NULL)
+            ans=findPath(root->left,k);	
+        if(root->data<k&&root->right!=NULL)
+            ans=findPath(root->right,k);    
+    	if(ans!=NULL)
+    	ans->push_back(root->data);
+
+return ans;
+}
