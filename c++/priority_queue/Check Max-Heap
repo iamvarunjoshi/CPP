@@ -1,0 +1,83 @@
+Check Max-Heap
+Send Feedback
+Given an array of integers, check whether it represents max-heap or not.
+Return true or false.
+Input Format :
+Line 1 : An integer N i.e. size of the array
+Line 2 : N integers which are elements of the array, separated by spaces
+Output Format :
+true if it represents max-heap and false if it is not a max-heap
+Constraints :
+1 <= N <= 10^5
+1 <= Ai <= 10^5
+
+/*bool checkMaxHeap(int arr[], int n){
+    if(n<=1)
+    {return n==1;}
+    //if n==1 it will return true false if n==0
+    
+    int pi=0;    bool ans=true;
+    
+    for(int i=0;i<n;i++)
+    {    pi=i;
+        int lci=2*pi+1,rci=2*pi+2;
+     if(lci<n)
+     {
+         if(arr[pi]<arr[lci])
+         {return false;}
+             
+         if(rci<n)
+         {
+         if(arr[pi]<arr[rci])
+         {return false;}
+         }            
+     }
+     else{
+         break;}
+        
+    } 
+    return true;
+}*/
+/*
+why its better keeping a check on lci as minimum the last node can be left child of an element and lci=2n-1;
+if this is not the case and there's also a right node
+then lci=n-2 and rci=n-1 and hence we can access all nodes.
+
+if(we use condition like rci<n)
+will work if my last node was right child of parent node 
+but the case when my last node would be left child of a tree in that case rci would be equal to n and hence will be voilationg the size of and index
+*/
+
+
+bool checkMaxHeap(int arr[], int n){
+if(n==1||n==0)
+    return true;
+// in max heap the root data is greter than both of its child
+  
+    /*for(int i = 0; i< n; i++)
+    {
+        if((2 * i + 1) < n && arr[i] < arr[2 * i + 1]){
+        return false;
+        }
+        if(((2*i+2) < n) && (arr[i] < arr[2*i + 2])){
+        return false;
+        }
+    }
+return true;
+*/
+    
+    
+    int lci=1;
+    int rci=2;
+    int i=0;
+    for(i=0; lci<n; i=i+1)
+    {                  
+        lci=2*i+1,rci=2*i+2;
+     	if(arr[i]<arr[lci]||((rci<n)&&arr[i]<arr[rci]))
+         	return false;
+        
+    }
+    
+ return true;
+
+}

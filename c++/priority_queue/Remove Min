@@ -1,0 +1,145 @@
+Remove Min
+Send Feedback
+Implement the function RemoveMin for the min priority queue class.
+For a minimum priority queue, write the function for removing the minimum element present. Remove and return the minimum element.
+Note : main function is given for your reference which we are using internally to test the code.
+
+
+
+
+
+/*******************
+ * Main function -
+*
+int main() {
+    PriorityQueue pq;
+    int choice;
+    cin >> choice;
+    while(choice != -1) {
+        switch(choice) {
+            case 1 : // insert
+                int element;
+                cin >> element;
+                pq.insert(element);
+                break;
+            case 2 : // getMin
+                cout << pq.getMin() << endl;
+                break;
+            case 3 : // removeMin
+                cout << pq.removeMin() << endl;
+                break;
+            case 4 : // size
+                cout << pq.getSize() << endl;
+                break;
+            case 5 : // isEmpty
+                if(pq.isEmpty()) {
+                    cout << "true" << endl;
+                }
+                else {
+                    cout << "false" << endl;
+                }
+            default :
+                return 0;
+        }
+        cin >> choice;
+    }
+}
+**************************/
+#include<vector>
+class PriorityQueue {
+    vector<int> pq;
+    
+    public :
+    
+    PriorityQueue() {
+        
+    }
+    
+    bool isEmpty() {
+        return pq.size()==0;
+    }
+    
+    // Return the size of priorityQueue - no of elements present
+    int getSize() {
+        return pq.size();
+    }
+    
+    int getMin() {
+      return (pq.size()==0)?0:pq[0];
+    }
+    
+    void insert(int element) {
+        pq.push_back(element);
+        //now we've pushed element now we've to go to the top root ans dollow heap order property
+        int ci=pq.size()-1;
+        while(ci>0)
+        {int pi=(ci-1)/2;
+         if(pq[pi]>pq[ci])
+         {
+             int temp=pq[ci];
+             pq[ci]=pq[pi];
+             pq[pi]=temp;
+         }
+         else
+             break;   
+            
+         ci=pi;
+        }
+        
+    }
+    
+    int removeMin() {
+        
+        int ans=pq[0];
+        pq[0]=pq[pq.size()-1];pq.pop_back();
+        //last element is pushed to the back and first element is saved in ans
+        // now we have to go fro top to bottom node to implement heap order property
+        int pi=0;//parent index
+        int lci=2*pi+1;//left child index
+        int rci=2*pi+2;//right child index
+        int mi=0;//min element
+        
+        //childrens are larger than the parent node 
+        while(rci<pq.size())
+        {
+        	mi=pi;
+            if(pq[mi]>pq[lci])
+                mi=lci;
+            if(pq[mi]>pq[rci])
+                mi=rci;
+            if(mi==pi)
+                break;
+            
+            int temp=pq[mi];
+            pq[mi]=pq[pi],pq[pi]=temp;
+            //shift the smallest of the two elements to 
+       		pi=mi;
+            lci=2*pi+1,rci=2*pi+2;
+        }
+        /*
+        //that an alternate approach to this element
+    while(lci<pq.size())
+        {
+        	mi=pi;
+            if(pq[mi]>pq[lci])
+                mi=lci;
+            if(pq[mi]>pq[rci]&&rci<pq.size())
+                mi=rci;
+            if(mi==pi)
+                break;
+            
+            int temp=pq[mi];
+            pq[mi]=pq[pi],pq[pi]=temp;
+            //shift the smallest of the two elements to 
+       		pi=mi;
+            lci=2*pi+1,rci=2*pi+2;
+        }
+        */
+        
+        
+        
+        return ans;
+    }
+    
+    
+};

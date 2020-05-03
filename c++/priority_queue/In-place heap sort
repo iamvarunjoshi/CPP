@@ -1,0 +1,71 @@
+In-place heap sort
+Send Feedback
+Given an integer array of size n. Sort this array (in decreasing order) using heap sort.
+Space complexity should be O(1).
+Input Format :
+Line 1 : Integer n, Array size
+Line 2 : Array elements, separated by space
+Output Format :
+Array elements after sorting
+Constraints :
+1 <= n <= 10^6
+Sample Input:
+6 
+2 6 8 5 4 3
+Sample Output:
+8 6 5 4 3 2
+
+
+void inplaceHeapSort(int input[], int n){
+    //for heapifyinf elements in min order element
+    for(int i=1;i<n;i++)
+    {
+    	int ci=i;
+     	int pi=0;
+     	
+        while(ci>0)
+        {
+            pi=(ci-1)/2;
+            if(input[ci]<input[pi])
+            {
+                int temp=input[ci];
+                input[ci]=input[pi],input[pi]=temp;
+            }
+            else
+                break;
+            
+            ci=pi;
+        }
+    }
+    //now it the time when we push min elements to the last index till, size of heap is 1
+    int size=n;
+    while(size>1)
+    {
+        int temp=input[0];
+    	input[0]=input[size-1];
+        input[size-1]=temp;
+        size--;
+        //last index will be size-1
+        int pi=0;
+        int lci=2*pi+1;
+        int rci=2*pi+2;
+        int mi=pi;
+        while(lci<size)
+        {mi=pi;
+         if(input[mi]>input[lci])
+             mi=lci;
+         if(input[mi]>input[rci]&&rci<size)//rci can be size-1
+          	mi=rci;
+         if(mi==pi)
+             break;//its already following heap order property.
+         
+         
+         int temp=input[mi];
+         input[mi]=input[pi],input[pi]=temp;
+         pi=mi;
+         lci=2*pi+1;
+         rci=2*pi+2;
+        }
+    }
+
+}
