@@ -1,0 +1,109 @@
+Maximum Subarray Sum
+
+Given an array arr[] of N integers. Find the contiguous sub-array with maximum sum.
+
+Input:
+The first line of input contains an integer T denoting the number of test cases. The description of T test cases follows. The first line of each test case contains a single integer N denoting the size of the array. The second line contains N space-separated integers A1, A2, ..., AN denoting the elements of the array.
+
+Output:
+Print the maximum sum of the contiguous sub-array in a separate line for each test case.
+
+Your Task:
+Your task is to return an integer with a maximum subarray sum.
+
+Constraints:
+1 ≤ T ≤ 100
+1 ≤ N ≤ 106
+-107 ≤ A[i] <= 107
+Sum of N over all testcases doesn't exceed 107
+
+Example:
+Input:
+2
+5
+1 2 3 -2 5
+4
+-1 -2 -3 -4
+Output:
+9
+-1
+
+Explanation:
+Testcase 1: Max subarray sum is 9 of elements (1, 2, 3, -2, 5) which is a contiguous subarray.
+
+
+#include<climits>
+int maxSubArray(vector<int> vec) {
+    
+    if(vec.size()==1)
+    return vec[0];
+    
+    int n=vec.size();
+    int maxsum=INT_MIN;
+    int sum=0;
+    
+    for(int i=0;i<n;i++)
+    {    
+        //just for the case when all elements are negative and sum=0 and we cant get
+        //maxsum i.e an indivisual maximum negative no
+        if(maxsum<vec[i])
+            maxsum=vec[i];
+
+
+        sum=sum+vec[i];
+        if(sum<0)
+            sum=0;
+            
+        // this case will tkae care of cases where my no's are positive
+        //or betwen negative no's a positive no is positive
+        if(maxsum<sum&&sum!=0)
+            maxsum=sum;
+        
+    }
+    return maxsum;
+}
+
+// this code will take care of even negative no's
+int maxSubArraySum(int a[], int size) 
+{ 
+    int max_so_far = INT_MIN, max_ending_here = 0; 
+  
+    for (int i = 0; i < size; i++) 
+    { 
+        max_ending_here = max_ending_here + a[i]; 
+        if (max_so_far < max_ending_here) 
+            max_so_far = max_ending_here; 
+  
+        if (max_ending_here < 0) 
+            max_ending_here = 0; 
+    } 
+    return max_so_far; 
+} 
+// code with more information.
+int maxSubArraySum(int a[], int size) 
+{ 
+    int max_so_far = INT_MIN, max_ending_here = 0, 
+       start =0, end = 0, s=0; 
+  
+    for (int i=0; i< size; i++ ) 
+    { 
+        max_ending_here += a[i]; 
+  
+        if (max_so_far < max_ending_here) 
+        { 
+            max_so_far = max_ending_here; 
+            start = s; 
+            end = i; 
+        } 
+  
+        if (max_ending_here < 0) 
+        { 
+            max_ending_here = 0; 
+            s = i + 1; 
+        } 
+    } 
+    cout << "Maximum contiguous sum is "
+        << max_so_far << endl; 
+    cout << "Starting index "<< start 
+        << endl << "Ending index "<< end << endl; 
+} 

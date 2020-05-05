@@ -1,0 +1,47 @@
+code to segregate all negative no's from positive numbers in a array.
+
+
+#include <iostream>
+
+using namespace std;
+
+void swap(int& s1, int & s2)
+{
+    int temp=s1;
+    s1=s2;
+    s2=temp;
+    
+}
+
+int segregate(int arr[],int size)
+{
+    int j=0;
+    for(int i=0;i<size;i++)
+    {
+        if(arr[i]<0)
+        {
+            swap(arr[i],arr[j]);j++;
+        }
+        
+        
+    }
+    return j;
+}
+
+
+int main()
+{
+
+int arr[]={1,2,3,4,5,6,5,2,5};
+
+int shift= segregate(arr,sizeof(arr)/4);
+int n=sizeof(arr)/4;
+
+for(int i=0;i<n;i++)
+{
+    cout<<arr[i]<<" ";
+}
+
+cout<<endl<<shift;
+    return 0;
+}
