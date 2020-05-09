@@ -1,0 +1,62 @@
+Coin Tower
+Send Feedback
+Whis and Beerus are playing a new game today . They form a tower of N coins and make a move in alternate turns . Beerus being the God plays first . In one move player can remove 1 or X or Y coins from the tower . The person to make the last move wins the Game . Can you find out who wins the game ?
+Input Format :
+Contains three value N,X,Y as mentioned in the problem statement
+Output Format :
+A string containing the name of the winner like “Whis” or “Beerus” (without quotes)
+Constraints:
+1<=N<=10^6
+2<=X<=Y<=50
+Sample Input :
+ 4 2 3
+Sample Output :
+ Whis
+
+
+string solve(int n, int x, int y)
+{
+    
+//'A' means "Beerus" and B means "Whis"
+if(n==1||n==x||n==y)
+    return "Beerus";
+
+int *dp=new int[n+1];
+    dp[x]=1;
+    dp[y]=1;
+    //1 correspods to the victory of A
+    // zero corresponds to defeat of A
+    dp[1]=1;
+    for(int i=2;i<=n;i++)
+    {
+        if(i==x||i==y)
+            continue;
+         //just in case if i is less than x and y then, in that case 
+         //i will loose as the option will be togled later and it will do no benefit to it.   
+        int option1=1;
+        int option2=1;
+        int option3=1;
+        //these are the option related to wining of B in steps of size x,y and 1
+        //1 value here would mean defeat of A and victory of A.
+        option1=dp[i-1];
+        //1 values at this step will mean victory of B that's why we will take xor of it
+        if(i-x>=1)
+            option2=dp[i-x];
+		if(i-y>=1)
+            option3=dp[i-y];
+        
+        option1=option1^1;
+        //if B is winning then A is loosing so 1 will result in 0/defeat ofA
+        option2=option2^1;
+        option3=option3^1;
+        
+        dp[i]=option1||option2||option3;
+    }
+    
+    int ans=dp[n];
+    delete []dp;
+    if(ans!=0)
+        return "Beerus";
+    else
+        return "Whis";
+}
