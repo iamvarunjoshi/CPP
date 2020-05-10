@@ -1,0 +1,113 @@
+Min Steps to 1
+Send Feedback
+Given a positive integer n, find the minimum number of steps s, that takes n to 1. You can perform any one of the following 3 steps.
+1.) Subtract 1 from it. (n= n - ­1) ,
+2.) If its divisible by 2, divide by 2.( if n%2==0, then n= n/2 ) ,
+3.) If its divisible by 3, divide by 3. (if n%3 == 0, then n = n / 3 ). 
+The time complexity of your code should be O(n).
+Input format :
+Line 1 : A single integer i.e. n
+Output format :
+Line 1 : Single integer i.e number of steps
+Constraints :
+1 <= n <= 10^5
+Sample Input 1 :
+4
+Sample Output 1 :
+2 
+Sample Output 1 Explanation :
+For n = 4
+Step 1 : n = 4/2 = 2
+Step 2 : n = 2/2 = 1
+Sample Input 2 :
+7
+Sample Output 2 :
+3
+Sample Output 2 Explanation :
+For n = 7
+Step 1 : n = 7 ­ - 1 = 6
+Step 2 : n = 6 / 3 = 2
+Step 3 : n = 2 / 2 = 1
+
+
+
+#include<climits>
+
+int *ans;
+bool cond=false;
+
+int countStepsTo1(int n){
+if(cond==false)
+{
+    ans=new int[n+1];
+    ans[1]=0;
+    ans[2]=ans[3]=1;
+    for(int i=4;i<=n;i++)
+        ans[i]=0;
+        
+    cond=true;   
+}
+    if(n==2||n==3||n==1)
+    {
+        return (n==1)?0:1;
+    }
+    
+    if(ans[n]>0)
+        return ans[n];
+    
+    int option1=INT_MAX;
+    int option2=INT_MAX;
+    int option3=INT_MAX;
+    
+        if(n%3==0)
+        option1=countStepsTo1(n/3);
+            
+        if(n%2==0)
+        option2=countStepsTo1(n/2);
+    
+        option3=countStepsTo1(n-1);
+
+        ans[n]=min(option1,min(option2,option3))+1;        
+    
+    return ans[n];
+
+}
+
+
+
+
+
+/*
+int countStepsTo1(int n){
+
+    if(n==1)
+        return 0;
+    
+    if(n==2||n==3)
+    return 1;
+    
+int *ans=new int[n+1];
+    
+ans[1]=0;
+ans[2]=1;
+ans[3]=1;
+    
+    for(int i=4;i<=n;i++)
+    {
+        int option1=INT_MAX;
+        int option2=INT_MAX;
+        int option3=INT_MAX;
+        
+        if(i%3==0)
+            option1=ans[i/3];
+            
+        if(i%2==0)
+            option2=ans[i/2];
+        
+            option3=ans[i-1];
+        
+        ans[i]=min(option1,min(option2,option3))+1;
+    }
+return ans[n];
+}
+*/

@@ -1,0 +1,40 @@
+No. of BSTs
+Send Feedback
+Given an integer N, find and return the count of unique Binary search trees (BSTs) are possible with nodes valued from 1 to N.
+Output count can be very large, so return the count modulo 10^9+7.
+Input Format :
+Integer n 
+Output Format :
+Count of BSTs
+Contraints :
+1<= N <=1000
+Sample Input 1:
+8
+Sample Output 1:
+1430
+Sample Input 2:
+3
+Sample Output 2:
+5
+
+#include<math.h>
+int countBST( int n)
+{
+   int div=pow(10,9)+7;
+	int * ans=new int[n+1];
+    
+    ans[0]=ans[1]=1;
+    
+    for(int i=2;i<=n;i++)
+    {
+        for(int j=1;j<=i;j++)
+        {
+            long temp=ans[j-1]*1l*ans[i-j];
+            int tempint=temp%div;
+            ans[i]=(ans[i]+tempint)%div;
+        }
+    }
+int ret=ans[n]%div;
+delete[] ans;
+    return ret;
+}
