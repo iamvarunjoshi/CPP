@@ -1,0 +1,181 @@
+ Edit Distance
+Send Feedback
+Given two strings s and t of lengths m and n respectively, find the Edit Distance between the strings. Edit Distance of two strings is minimum number of steps required to make one string equal to other. In order to do so you can perform following three operations only :
+1. Delete a character
+
+2. Replace a character with another one
+
+3. Insert a character
+Note - Strings don't contain spaces
+Input Format :
+Line 1 : String s
+Line 2 : String t
+Output Format :
+Line 1 : Edit Distance value
+Constraints
+1<= m,n <= 20
+Sample Input 1 :
+abc
+dc
+Sample Output 1 :
+2
+
+//most simple approach
+#include<climits>
+#include<iostream>
+using namespace std;
+
+int minimum(int a,int b,int c)
+{
+    int ans= min(a,min(b,c));
+    return ans;
+}
+
+
+int editDistance(string s1, string s2){
+
+if(s1.size()==0||s2.size()==0)
+	return (s1.size()==0)?s2.size():s1.size();
+
+int option1=INT_MAX;
+int option3=INT_MAX;
+int option2=INT_MAX;
+
+if(s1[0]==s2[0])
+	return editDistance(s1.substr(1),s2.substr(1));
+
+else
+{
+	option1= 1+	editDistance(s1.substr(1),s2.substr(1));
+	//this is the case when we replace first element of any substring
+
+	option2= 1+	editDistance(s1,s2.substr(1));
+	//This is the case when we add one element
+	
+	option3= 1+	editDistance(s1.substr(1),s2);
+	//this is the case when we delete the unequal element of the string
+} 
+
+return minimum(option1,option2,option3);
+}
+// this is a simple dp approach with time complexity of 3^n exponential.
+
+
+
+
+//itterative approach using dp
+#include<climits>
+#include<iostream>
+using namespace std;
+
+int minimum(int a,int b,int c)
+{
+    int ans= min(a,min(b,c));
+    return ans;
+}
+
+int editDistance(string s1, string s2){
+
+if(s1.size()==0||s2.size()==0)
+return (s1.size()==0)?s2.size():s1.size();
+
+int m=s1.size();
+int n=s2.size();
+int ** dp=new int*[m+1];
+
+for(int i=0;i<=m;i++)
+{
+	dp[i]=new int[n+1];
+}
+
+//this means if size of string1 isi and othe string is null so minimum edits required is i. 
+for(int i=0;i<=m;i++)
+	dp[i][0]=i;
+
+//this is when lenght of string 2 is i so minimum no of edits to make it null is equal to its size i.e. i .
+for(int i=0;i<=n;i++)	
+	dp[0][i]=i;
+
+
+//i index is for string 1 
+//j th index is tring 2
+for(int i=1;i<=m;i++)
+{
+	for(int j=1;j<=n;j++)
+	{
+		if(s1[m-i]==s2[n-j])
+			dp[i][j]=dp[i-1][j-1];
+		else
+		{	
+		dp[i][j]=1+minimum(dp[i-1][j-1],dp[i-1][j],dp[i][j-1]);
+		// first element is when we replace a element of a string so min edit would be 1+ s1+1 and s2+1
+		//second case is when we delete first element of string s1 
+		//third case is when we add a new element to the starting of string s1
+		}
+	}
+}
+
+
+int ans=dp[m][n];
+for(int i=0;i<m;i++)
+{
+delete []dp[i];	
+}
+
+delete []dp;
+return ans;
+}
+
+// third approach 
+
+
+// recursive approach involving dp
+
+#include<climits>
+#include<iostream>
+using namespace std;
+
+int minimum(int a,int b,int c)
+{
+    return min(a,min(b,c));
+}
+
+int helper(string s1,string s2,int m,int n,int **dp)
+{
+	if(m==0||n==0)
+		return (s1.size()==0)?s2.size():s1.size();
+	if(dp[m][n]>-1)
+		return dp[m][n];
+
+	int ans=0;
+	if(s1[0]==s2[0])
+		ans=helper(s1.substr(1),s2.substr(1),m-1,n-1,dp);
+
+	else
+	{
+		ans=1+ minimum(helper(s1.substr(1),s2.substr(1),m-1,n-1,dp),helper(s1.substr(1),s2,m-1,n,dp),helper(s1,s2.substr(1),m,n-1,dp));
+	}
+	dp[m][n]=ans;
+	return ans;
+}
+
+int editDistance(string s1, string s2){
+int m=s1.size();
+int n=s2.size();
+int ** dp=new int*[m+1];
+for(int i=0;i<=m;i++)
+{
+	dp[i]=new int[n+1];
+	for(int j=0;j<=n;j++)
+		dp[i][j]=-1;	
+}
+
+int ans=helper(s1,s2,m,n,dp);
+for(int i=0;i<m;i++)
+{
+delete []dp[i];	
+}
+
+delete []dp;
+return ans;
+}

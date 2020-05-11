@@ -1,0 +1,122 @@
+0 1 Knapsack
+Send Feedback
+A thief robbing a store and can carry a maximal weight of W into his knapsack. There are N items and ith item weigh wi and is of value vi. What is the maximum value V, that thief can take ?
+Space complexity should be O(W).
+Input Format :
+Line 1 : N i.e. number of items
+Line 2 : N Integers i.e. weights of items separated by space
+Line 3 : N Integers i.e. values of items separated by space
+Line 4 : Integer W i.e. maximum weight thief can carry
+Output Format :
+Line 1 : Maximum value V
+Constraints
+1 <= N <= 10^4
+1<= wi <= 100
+1 <= vi <= 100
+Sample Input 1 :
+4
+1 2 4 5
+5 4 8 6
+5
+Sample Output :
+13
+
+/*
+#include<iostream>
+#include<climits>
+using namespace std;
+//naive recursive approach
+int helper(int* weights,int *values,int n,int capacity,int **dp)
+{
+    //in this code we will return the weight we will add to the napsack
+    if(n==0||capacity==0)
+        return 0;
+    if(dp[n][capacity]!=-1)
+        return dp[n][capacity];
+    
+    int ans=0;
+    if(capacity<weights[n-1])
+        ans= helper(weights,values,n-1,capacity,dp);
+    else
+    {
+        //this is the case when we take one item that will return maximum values of knapsack to the user
+        int option1= values[n-1] + helper(weights,values,n-1,capacity-weights[n-1],dp);
+        //when we leave the current item and go for maximum value of knapsack from reamaning values
+        int option2= helper(weights,values,n-1,capacity,dp);
+        ans= max(option1,option2);
+    }
+    dp[n][capacity]=ans;
+    return ans;
+}
+
+
+int knapsack(int* weights, int* values, int n, int maxWeight){
+
+    int w=maxWeight;
+    int **dp=new int*[n+1];
+    for(int i=0;i<=n;i++)
+    {
+        dp[i]=new int[w+1];
+        for(int j=0;j<=w;j++)
+        {
+     		dp[i][j]=-1;       
+        }
+    }
+    
+    int ans=helper(weights,values,n,maxWeight,dp);
+    
+	for(int i=0;i<n+1;i++)
+    {
+        delete []dp[i];
+    }
+    delete []dp;
+    return ans;
+}
+*/
+
+int knapsack(int* weights,int* values,int n,int W)
+{
+    int dp[2][W+1];
+    for(int i=0;i<=W;i++)
+    {
+        dp[0][i]=0;
+        dp[1][i]=0;
+    }
+int num=0;
+    for( num=0;num<n;num++)
+    {
+        //for element like 1 and 3
+        if(num%2!=0)
+        {      for(int c=1;c<=W;c++)
+            {
+                if(weights[num]>c)//if weight of certain element is larger than capacity
+                {
+                dp[1][c]=dp[0][c];
+                }
+                else
+                {
+                dp[1][c]=max(values[num]+dp[0][c-weights[num]],dp[0][c]);
+                }
+            }
+        }
+        else
+        {
+        for(int c=1;c<=W;c++)
+        {
+            if(weights[num]>c)//if weight of certain element is larger than capacity
+            {
+            dp[0][c]=dp[1][c];
+            }
+            else
+            {
+            dp[0][c]=max(values[num]+dp[1][c-weights[num]],dp[1][c]);
+            }
+        }
+        }
+    }
+
+
+
+// Return mat[0][W] if n is odd, else mat[1][W]
+return (num%2 != 0)? dp[0][W] : dp[1][W];
+}
