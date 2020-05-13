@@ -1,0 +1,118 @@
+1:2,3
+2:1,4,5
+3:1,4,5
+4:2,3,5
+5:2,3,4
+
+find path b/w 1->6
+
+f f f f f f f f
+0 1 2 3 4 5 6 7
+
+#include <iostream>
+#include<queue>
+
+using namespace std;
+
+bool findpath(int **edges,bool *visited,int n,int v1,int v2)
+{       
+bool ans=false;
+    
+    if(edges[v1][v2]==1)
+        return true;
+
+    visited[v1]=true;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(i==v1)
+            continue;
+        
+        if(edges[v1][i]==1&&!visited[i])
+        {
+            ans= findpath(edges,visited,n,i,v2);
+        }
+        if(ans==true)
+            break;
+    }
+    return ans;
+    
+}
+
+bool findpathBFS(int **edges,bool *visited,int n,int v1,int v2)
+{       
+bool ans=false;
+queue<int> pnodes;
+pnodes.push(v1);
+
+    while(!pnodes.empty()&&!ans)
+    {
+        int cv=pnodes.front();
+        pnodes.pop();	
+		cout<<cv<<" links: ";
+            if(!visited[cv])
+            {	visited[cv]=true;
+                    for(int i=0;i<n;i++)
+                    {
+                        if(i==cv)
+                        continue;
+                        if(!visited[i]&&edges[cv][i]==1)
+                        {
+                            cout<<i<<" ";
+                            pnodes.push(i);
+                            if(i==v2)
+                            {
+                            ans=true;
+                            break;
+                            }
+                        }
+                    }
+             cout<<endl;
+            }
+	}
+return ans;
+}
+
+
+int main() {
+    int V, E;
+    cin >> V >> E;
+    int** edges=new int*[V];
+    for(int i=0;i<V;i++)
+    {
+        edges[i]=new int[V];
+        {
+            for(int j=0;j<V;j++)
+            {
+                edges[i][j]=0;
+            }
+        }   
+        
+    }
+    for(int i=0;i<E;i++)
+    {int v1,v2;
+        cin>>v1>>v2;
+     edges[v1][v2]=1;
+     edges[v2][v1]=1;        
+    }
+    
+    int var1,var2;
+    cin>>var1>>var2;
+    bool *visited=new bool[V];
+    for(int i=0;i<V;i++)
+    {
+        visited[i]=false;
+    }
+    bool ans=findpathBFS(edges,visited,V,var1,var2);
+    cout<<((ans==true)?"true":"false");   
+    
+  
+delete []visited;
+    for(int k=0;k<V;k++)
+    {
+        delete []edges[k];
+    }
+    delete []edges;
+  return 0;
+}
+
