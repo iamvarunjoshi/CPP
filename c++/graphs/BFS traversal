@@ -1,0 +1,142 @@
+#include <iostream>
+#include<queue>
+using namespace std;
+
+void printBFS(int v,int** dp,bool *visited,int sv)
+{
+    //visited[sv]=true;
+    queue<int> pnodes;
+    pnodes.push(sv);
+    while(!pnodes.empty())
+    {
+        int cv=pnodes.front();
+        pnodes.pop();
+        cout<<cv<<" ";
+        visited[cv]=true;
+        //we push element once and mark the parent or sv as visited
+            for(int i=0;i<v;i++)
+            {
+                if(i==cv)
+                    continue;
+                
+                if(dp[cv][i]==1&&visited[i]!=true)
+                {
+					pnodes.push(i);
+                    //this step will avoid adding elements again and again and will mark them so that they're added once only.          
+                    visited[i]=true;
+                }
+            }
+    }
+}
+
+int main() {
+    int v, e;
+    cin >> v >> e;
+
+ int ** dp=new int*[v];
+bool *visited=new bool[v];
+for(int i=0;i<v;i++)
+{
+    dp[i]=new int[v];
+    for(int j=0;j<v;j++)
+    { dp[i][j]=-1;
+    	if(i==0)
+            visited[j]=false;
+    }
+}
+
+for(int i=0;i<e;i++)
+{
+    int fi,si;   cin>>fi>>si;
+    dp[fi][si]=1;
+    dp[si][fi]=1;
+}
+for(int i=0;i<v;i++)
+{
+	if(!visited[i])
+    {
+        printBFS(v,dp,visited, i);
+    }
+}
+   
+for(int i=0;i<v;i++)
+{delete []dp[i];}
+delete []dp;
+delete []visited;
+  return 0;
+}
+
+
+//version 2
+
+
+#include <iostream>
+#include<queue>
+using namespace std;
+
+void printBFS(int v,int** dp,bool *visited,int sv)
+{
+    queue<int> pnodes;
+    pnodes.push(sv);
+    while(!pnodes.empty())
+    {
+        int cv=pnodes.front();
+        pnodes.pop();
+        //in this method elements will be pushed into queue and in order to printing a element again and again we put a chek if the cv is visited or not
+        /*
+            suppose 0 is connected to 1 and 2-> 1 and 2 is pushed to the queue
+            //1 2
+            1 is connected to 3 and 2-> as both of these aren't visited 
+            //queue  2 3 2
+            so if we dont keep check if cv is connected then 2 will be printed twices
+            
+        */
+        if(!visited[cv])
+        {
+            cout<<cv<<" ";
+            visited[cv]=true;
+            for(int i=0;i<v;i++)
+            {
+                if(dp[cv][i]==1&&visited[i]!=true)
+                    pnodes.push(i);
+            }
+        }
+    }
+}
+
+int main() {
+    int v, e;
+    cin >> v >> e;
+
+ int ** dp=new int*[v];
+bool *visited=new bool[v];
+for(int i=0;i<v;i++)
+{
+    dp[i]=new int[v];
+    for(int j=0;j<v;j++)
+    { dp[i][j]=-1;
+        if(i==0)
+            visited[j]=false;
+    }
+}
+
+for(int i=0;i<e;i++)
+{
+    int fi,si;   cin>>fi>>si;
+    dp[fi][si]=1;
+    dp[si][fi]=1;
+}
+for(int i=0;i<v;i++)
+{
+    if(!visited[i])
+    {
+        printBFS(v,dp,visited, i);
+    }
+}
+   
+for(int i=0;i<v;i++)
+{delete []dp[i];}
+delete []dp;
+delete []visited;
+  return 0;
+}
