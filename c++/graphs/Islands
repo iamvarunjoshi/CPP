@@ -1,0 +1,129 @@
+Islands
+Send Feedback
+An island is a small piece of land surrounded by water . A group of islands is said to be connected if we can reach from any given island to any other island in the same group . Given N islands (numbered from 1 to N) and two lists of size M (u and v) denoting island u[i] is connected to island v[i] and vice versa . Can you count the number of connected groups of islands.
+Constraints :
+1<=N<=100
+1<=M<=(N*(N-1))/2
+1<=u[i],v[i]<=N
+Input Format :
+Line 1 : Two integers N and M
+Line 2 : List u of size of M
+Line 3 : List v of size of M
+Output Return Format :
+The count the number of connected groups of islands
+Sample Input :
+2 1
+1
+2
+Sample Output :
+1 
+
+void dfs(int** graph,int n, bool *visited,int sv)
+{
+   
+    visited[sv]=true;
+    
+    for(int i=1;i<=n;i++)
+    {
+        if(i==sv)
+            continue;
+        
+        if(!visited[i]&&graph[sv][i]==1)
+        {
+            dfs(graph,n,visited,i);
+        }
+    }     
+}
+
+int** makegraph(vector<int>u,vector<int>v,int n,int m)
+{
+  int** graph=new int*[n+1];
+        for(int i=0;i<=n;i++)
+        {
+             graph[i]=new int[n+1];
+            for(int j=0;j<=n;j++)
+            {
+               graph[i][j]=0;
+            }
+        }
+    
+    for(int i=0;i<u.size();i++)
+    {
+        if(u.at(i)==v.at(i))
+            continue;
+        int f=u.at(i);
+        int s=v.at(i);
+        
+        graph[f][s]=1;
+        graph[s][f]=1;
+    }
+    return graph;
+}
+
+void deletegraph(int **graph,int n,bool* visited)
+{
+       for(int j=0;j<=n;j++)
+        {
+			 delete []graph[j];
+        }
+    
+    delete []graph;
+    delete []visited;
+}
+
+int solve(int n,int m,vector<int>u,vector<int>v)
+{
+ 	int** graph=makegraph(u,v,n,m);
+       
+    int count=0;
+    bool* visited=new bool[n+1]; 
+    
+    for(int i=0;i<n;i++)
+        visited[i]=false;
+    
+        
+    for(int i=1;i<=n;i++)
+    {
+        if(visited[i]==false)
+        {
+            count++;
+           dfs(graph,n,visited,i);
+        }
+    }
+   deletegraph(graph,n,visited);
+    return count;
+ 
+}
+
+good practice
+
+#define NM 105
+vector<int>adj[NM];
+int visited[NM];
+void dfs(int u,int p)
+{
+if(visited[u])
+return ;
+visited[u]=1;
+for(int i=0;i<adj[u].size();i++)
+if(adj[u][i]!=p)
+{
+dfs(adj[u][i],u);
+}
+}
+int solve(int n,int m,vector<int>u,vector<int>v)
+{
+for(int i=0;i<m;i++)
+{
+adj[u[i]].push_back(v[i]);
+adj[v[i]].push_back(u[i]);
+}
+int connected_groups=0;
+for(int i=1;i<=n;i++)
+if(!visited[i])
+{
+dfs(i,i);
+connected_groups++;
+}
+return connected_groups;
+}
