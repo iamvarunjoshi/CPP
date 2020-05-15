@@ -1,0 +1,25 @@
+//Code to Binary search
+int BinarySearch(int arr[], int size, int key)
+{
+	int startI = 0;
+	int endI = size - 1;
+	while (startI <= endI)
+	{
+		int mid = (startI + endI) / 2;
+		//if key is founded then return its index
+		if (arr[mid] == key)
+		{
+			return mid;
+		}
+		//if key is smaller than the mid element then go to the left part of the array by shifting last index.
+		else if (arr[mid] > key)
+		{
+			endI = mid -1;
+		}
+		//is key is big then go to the left part of array by shifting left element of the array.
+		else {
+			startI = mid + 1;
+		}
+	}
+	return -1;
+}
