@@ -1,0 +1,17 @@
+kadane algorithm
+ll kadane(vector<ll>v)
+{
+	int n=v.size();
+	int i;
+    ll me=-inf;
+    ll csum=0;
+	
+	for(int i=0;i<n;i++)
+	{
+		csum+=v[i];
+		me=max(me,csum);
+		if(csum<0)
+		csum=0;
+	}
+return me;
+}
