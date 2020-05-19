@@ -1,0 +1,37 @@
+sherlock-and-squares
+https://www.hackerrank.com/challenges/sherlock-and-squares/problem
+
+int squares(int a, int b) {
+    int numOfSquares = 0;
+    int x = 1;
+    while(x*x < a)
+    x++;
+    while(x*x <= b){
+        numOfSquares++;
+        x++;
+    }
+    
+    
+    return numOfSquares;
+}
+//conceptualize this if a is a perfect square and no matter what b woulb be sqrt of b would be a perfect square. 
+//only restriction here is if a is larger than perefect square say 26 or 27
+//its squareroot would be 5 is float of sqrt is more than integer value of square root then we can't include that value and all the numbers from next number to last sqrt will be my answers.
+
+int squares(int a,int b) {
+
+ int m,x;
+
+float n;
+
+m=sqrt(a);
+
+n=sqrt(a);
+
+x=sqrt(b);
+
+if(n>m)
+    m=m+1;
+
+return x-m+1;
+}

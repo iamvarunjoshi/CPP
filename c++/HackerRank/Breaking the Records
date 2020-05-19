@@ -1,0 +1,32 @@
+Breaking the Records
+
+
+https://www.hackerrank.com/challenges/breaking-best-and-worst-records/problem
+
+
+vector<int> breakingRecords(vector<int> scores) {
+int n=scores.size();
+int maxrec=0,minrec=0;
+int max=scores[0];
+int min=scores[0];
+
+for(int i=1;i<n;i++)
+{
+    int current=scores[i];
+
+    if(current<min)
+    {
+        minrec++;
+        min=current;
+    }
+    else if(current>max)
+    {
+        maxrec++;
+        max=current;
+    }
+}
+vector<int> ans;
+ans.push_back(maxrec);
+ans.push_back(minrec);
+return ans;
+}
