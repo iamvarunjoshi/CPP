@@ -2,7 +2,7 @@
 #include<vector>
 using namespace std;
 
-//This class is using adjacency matrix.
+//This Graph class is using adjacency list.
 
 class Graph{
 public:
