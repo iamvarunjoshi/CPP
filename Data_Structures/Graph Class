@@ -1,8 +1,9 @@
 #include <iostream>
 #include<vector>
+#include<queue>
 using namespace std;
 
-//This Graph class is using adjacency list.
+//This class is using adjacency matrix.
 
 class Graph{
 public:
@@ -60,7 +61,71 @@ void dfs()
 	dfs(0);
 }
 
+void bfs(int sv)
+{
+    queue<int> pnodes;
+    pnodes.push(sv);
+    visited[sv]=true;
+    
+    while(!pnodes.empty())
+    {
+        int cv=pnodes.front();
+        pnodes.pop();
+        cout<<cv<<" ";
+        for(int i=0;i<graph[cv].size();i++)
+        {
+            if(!visited[graph[cv][i]])
+            {
+                pnodes.push(graph[cv][i]);
+                visited[graph[cv][i]]=true;
+            }
+        }
+        
+    }
+}
 
+bool haspathbfs(int s,int e)
+{
+    bool ans=false;
+    for(int i=0;graph[s].size();i++)
+    {
+        if(graph[s][i]==e)
+            return true;
+    }
+    
+    visited[s]=true;
+    for(int i=0;graph[s].size();i++)
+    {
+        if(!visited[graph[s][i]])
+        {
+            bool temp=haspathbfs(graph[s][i],e);
+            ans=ans||temp;
+            
+        }
+        if(ans==true)
+            return true;
+    }
+    return false;
+}
+
+void info()
+   {
+       cout<<"Vertices start from 0th index to n-1 index"<<endl
+    <<"If no of Vertices is 5, thier no would be 0 1 2 3 4 "<<endl;
+    /*
+    Input:  8
+            8
+            0 1
+            0 5
+            1 2
+            1 3
+            2 3
+            5 6
+            5 7
+            6 7 
+    */
+    
+    }
 };
 
 int main()
@@ -68,9 +133,10 @@ int main()
     int v;
     cout<<"Enter no of Vertices"<<" ";
 	cin>>v;
-    
     Graph g(v);
-    bool * val=g.visited;
+  /* 
+  Printing Graph via BFS and DFS
+  bool * val=g.visited;
     
  for(int i=0;i<v;i++)
  {
@@ -80,5 +146,24 @@ int main()
         cout<<endl;
     }
  }
+ 
+ cout<<endl<<"BFS"<<endl;
+ 
+ for(int i=0;i<v;i++)
+    val[i]=false;
+ 
+ for(int i=0;i<v;i++)
+ {
+     if(!val[i])
+    {    
+        g.bfs(i);
+        cout<<endl;
+    }
+ }
+ */
+ bool ans=g.haspathbfs(0,4);
+ cout<<"Is Edges 0 and 4 connected?"<<endl;
+ cout<<((ans==true)?"Yes its connected":"No its not connected");
+ 
     return 0;
 }
