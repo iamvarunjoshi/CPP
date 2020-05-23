@@ -1,0 +1,84 @@
+#include <iostream>
+#include<vector>
+using namespace std;
+
+//This class is using adjacency matrix.
+
+class Graph{
+public:
+	vector<int> graph[100];
+	bool* visited;
+	int v,e;
+
+Graph(int V)
+{
+	cout<<"This is a Undirected Graph Class "<<" with 100 edges possible "<<std::endl;
+	int v,e;
+	
+	v=V;
+	
+	cout<<"Enter no of Edges ";
+	cin>>e;
+	
+	for(int i=0;i<e;i++)
+	{
+		int f,s;
+		cout<<"Enter Edges ";
+		cin>>f>>s;
+		graph[f].push_back(s);
+		graph[s].push_back(f);
+	}
+	
+	visited=new bool[v];
+	
+	for(int i=0;i<v;i++)
+		visited[i]=false;
+	
+}
+
+~Graph()
+{
+	delete []visited;
+}
+
+void dfs(int sv)
+{
+	cout<<sv<<" ";
+	visited[sv]=true;
+	
+	for(int i=0;i<graph[sv].size();i++)
+	{
+		int nv=graph[sv][i];
+		
+		if(!visited[nv])
+			dfs(nv);
+	}
+}
+
+void dfs()
+{
+	dfs(0);
+}
+
+
+};
+
+int main()
+{
+    int v;
+    cout<<"Enter no of Vertices"<<" ";
+	cin>>v;
+    
+    Graph g(v);
+    bool * val=g.visited;
+    
+ for(int i=0;i<v;i++)
+ {
+     if(!val[i])
+    {    
+        g.dfs(i);
+        cout<<endl;
+    }
+ }
+    return 0;
+}
