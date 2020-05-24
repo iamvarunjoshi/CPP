@@ -1,169 +1,286 @@
 #include <iostream>
 #include<vector>
 #include<queue>
+#include<unordered_map>
+
 using namespace std;
 
 //This class is using adjacency matrix.
 
-class Graph{
+class Graph {
 public:
-	vector<int> graph[100];
-	bool* visited;
-	int v,e;
+    vector<int> graph[100];
+    bool* visited;
+    int v, e;
 
-Graph(int V)
-{
-	cout<<"This is a Undirected Graph Class "<<" with 100 edges possible "<<std::endl;
-	int v,e;
-	
-	v=V;
-	
-	cout<<"Enter no of Edges ";
-	cin>>e;
-	
-	for(int i=0;i<e;i++)
-	{
-		int f,s;
-		cout<<"Enter Edges ";
-		cin>>f>>s;
-		graph[f].push_back(s);
-		graph[s].push_back(f);
-	}
-	
-	visited=new bool[v];
-	
-	for(int i=0;i<v;i++)
-		visited[i]=false;
-	
-}
-
-~Graph()
-{
-	delete []visited;
-}
-
-void dfs(int sv)
-{
-	cout<<sv<<" ";
-	visited[sv]=true;
-	
-	for(int i=0;i<graph[sv].size();i++)
-	{
-		int nv=graph[sv][i];
-		
-		if(!visited[nv])
-			dfs(nv);
-	}
-}
-
-void dfs()
-{
-	dfs(0);
-}
-
-void bfs(int sv)
-{
-    queue<int> pnodes;
-    pnodes.push(sv);
-    visited[sv]=true;
-    
-    while(!pnodes.empty())
+    Graph(int V)
     {
-        int cv=pnodes.front();
-        pnodes.pop();
-        cout<<cv<<" ";
-        for(int i=0;i<graph[cv].size();i++)
+        cout << "This is a Undirected Graph Class " << " with 100 edges possible " << std::endl;
+        int e;
+
+        this->v = V;
+
+        cout << "Enter no of Edges ";
+        cin >> e;
+
+        for (int i = 0; i < e; i++)
         {
-            if(!visited[graph[cv][i]])
+            int f, s;
+            cout << "Enter Edges ";
+            cin >> f >> s;
+            graph[f].push_back(s);
+            graph[s].push_back(f);
+        }
+
+        visited = new bool[v];
+
+        for (int i = 0; i < v; i++)
+            visited[i] = false;
+
+    }
+
+    ~Graph()
+    {
+        delete[]visited;
+    }
+
+    void dfs(int sv)
+    {
+        cout << sv << " ";
+        visited[sv] = true;
+
+        for (int i = 0; i < graph[sv].size(); i++)
+        {
+            int nv = graph[sv][i];
+
+            if (!visited[nv])
+                dfs(nv);
+        }
+    }
+
+    void printdfs()
+    {
+        cout << "DFS" << endl;
+        int i = 0;
+    
+        for (i = 0; i < v; i++)
+        {
+            if (visited[i]==false)
             {
-                pnodes.push(graph[cv][i]);
-                visited[graph[cv][i]]=true;
+                dfs(i);
+                cout << endl;
             }
         }
-        
-    }
-}
 
-bool haspathbfs(int s,int e)
-{
-    bool ans=false;
-    for(int i=0;graph[s].size();i++)
-    {
-        if(graph[s][i]==e)
-            return true;
-    }
-    
-    visited[s]=true;
-    for(int i=0;graph[s].size();i++)
-    {
-        if(!visited[graph[s][i]])
+        for (i = 0; i < v; i++)
         {
-            bool temp=haspathbfs(graph[s][i],e);
-            ans=ans||temp;
-            
+            visited[i] = false;
         }
-        if(ans==true)
-            return true;
-    }
-    return false;
-}
 
-void info()
-   {
-       cout<<"Vertices start from 0th index to n-1 index"<<endl
-    <<"If no of Vertices is 5, thier no would be 0 1 2 3 4 "<<endl;
-    /*
-    Input:  8
-            8
-            0 1
-            0 5
-            1 2
-            1 3
-            2 3
-            5 6
-            5 7
-            6 7 
-    */
-    
+        return;
+    }
+
+    void bfs(int sv)
+    {
+        queue<int> pnodes;
+        pnodes.push(sv);
+        visited[sv] = true;
+
+        while (!pnodes.empty())
+        {
+            int cv = pnodes.front();
+            pnodes.pop();
+            cout << cv << " ";
+            for (int i = 0; i < graph[cv].size(); i++)
+            {
+                if (!visited[graph[cv][i]])
+                {
+                    pnodes.push(graph[cv][i]);
+                    visited[graph[cv][i]] = true;
+                }
+            }
+
+        }
+    }
+
+    void printbfs()
+    {
+        cout << "BFS" << endl;
+        for (int i = 0; i < v; i++)
+        {
+            if (!visited[i])
+            {
+                bfs(i);
+                cout << endl;
+            }
+        }
+
+        for (int i = 0; i < v; i++)
+        {
+            visited[i] = false;
+        }
+    }
+
+    bool haspathbfs(int s, int e)
+    {
+        bool ans = false;
+
+        for (int i = 0; graph[s].size(); i++)
+        {
+            if (graph[s][i] == e)
+                return true;
+        }
+
+        visited[s] = true;
+        for (int i = 0; graph[s].size(); i++)
+        {
+            if (!visited[graph[s][i]])
+            {
+                bool temp = haspathbfs(graph[s][i], e);
+                ans = ans || temp;
+
+            }
+            if (ans == true)
+                return true;
+        }
+        return false;
+    }
+
+    vector<int>* getpath(int s, int e)
+    {
+        for (int i = 0; i < graph[s].size(); i++)
+        {
+            //graph[s][i] is the verticies to which starting vertex is connected.
+            if (graph[s][i] == e)
+            {
+                vector<int>* ans = new vector<int>;
+                ans->push_back(e);
+                ans->push_back(s);
+                return ans;
+            }
+            //if e is adjacent to s then add e to ans vector and return answer.
+        }
+
+        visited[s] = true;
+        vector<int>* temp = NULL;
+        for (int i = 0; i < graph[s].size(); i++)
+        {
+
+            //were asking path to e from the neighbours of starting vertex.
+            if (!visited[graph[s][i]])
+            {
+                temp = getpath(graph[s][i], e);
+                if (temp != NULL)
+                {
+                    temp->push_back(s);
+                    return temp;
+                }
+            }
+        }
+        return NULL;
+    }
+
+    vector<int>* getpathbfs(int s, int e)
+    {
+        for (int i = 0; i < v; i++)
+            visited[i] = false;
+
+                queue<int> nodes;
+                unordered_map<int, int> parentmap;
+                parentmap[s] = -1;
+                vector<int>* ans = NULL;
+
+                nodes.push(s);
+                visited[s] = true;
+
+                while (!nodes.empty())
+                {
+                    int cv = nodes.front();
+                    nodes.pop();
+
+                    for (int i = 0; i < graph[cv].size(); i++)
+                    {
+                        int children = graph[cv][i];
+
+                        if (!visited[children])
+                        {
+                            nodes.push(children);
+                            parentmap[children] = cv;
+                            visited[children] = true;
+                        }
+                        if (children == e)
+                        {
+                            ans = new vector<int>;
+                            ans->push_back(e);
+                            int parent = parentmap[e];
+
+                            while (parent != -1)
+                            {
+                                ans->push_back(parent);
+                                parent = parentmap[parent];
+                            }
+                            return ans;
+                        }
+                    }
+                }
+                return NULL;
+    }
+
+    void info()
+    {
+        cout << "Vertices start from 0th index to n-1 index" << endl
+            << "If no of Vertices is 5, thier no would be 0 1 2 3 4 " << endl;
+        /*
+        Input:  8
+                8
+                0 1
+                0 5
+                1 2
+                1 3
+                2 3
+                5 6
+                5 7
+                6 7
+        */
+
     }
 };
 
 int main()
 {
     int v;
-    cout<<"Enter no of Vertices"<<" ";
-	cin>>v;
+    cout << "Enter no of Vertices" << " ";
+    cin >> v;
     Graph g(v);
-  /* 
-  Printing Graph via BFS and DFS
-  bool * val=g.visited;
-    
- for(int i=0;i<v;i++)
- {
-     if(!val[i])
-    {    
-        g.dfs(i);
-        cout<<endl;
-    }
- }
+
+    g.printbfs();
+    g.printdfs();
  
- cout<<endl<<"BFS"<<endl;
- 
- for(int i=0;i<v;i++)
-    val[i]=false;
- 
- for(int i=0;i<v;i++)
- {
-     if(!val[i])
-    {    
-        g.bfs(i);
-        cout<<endl;
-    }
- }
- */
+
+ /*
+ // Has path function
  bool ans=g.haspathbfs(0,4);
  cout<<"Is Edges 0 and 4 connected?"<<endl;
  cout<<((ans==true)?"Yes its connected":"No its not connected");
+ */
+ //getpath function
+ //for an graph of 5 vertex check path between 0th and 4th vertex
+
  
+ vector<int>* ans=g.getpathbfs(0,4);
+
+    if(ans!=NULL)
+        {   cout<<"Path found: "<<endl;
+            for(int i=0;i<ans->size();i++)
+             {
+                 int t=ans->at(i);
+                 cout<<t<<" ";
+             }
+        }
+    else
+    {
+        cout << "Path Not Found";
+    }
     return 0;
 }
+
