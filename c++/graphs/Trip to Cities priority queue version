@@ -1,0 +1,185 @@
+Trip to cities
+Send Feedback
+You want to plan a trip to a country with N cities and M bidirectional roads. But there is a special city called capital C, where you will land. But there is a restriction, you can only visit cities which are at most k distance from the capital. Can you count the number of cities that you can visit during your trip (including capital) ?
+Input Format :
+Line 1 : Four Integers N , M ,C (Capital), K
+Next M lines : Three integers X, Y, Z where city X and Y have a road between them which has length Z
+Output Format :
+Print the number of cities that you can visit during your trip
+Constraints :
+1 <= N <= 100005
+1 <= M <= 200005
+1 <= X,Y <=N
+1 <= Z <= 100
+Sample Input :
+4 3 1 1
+1 2 1
+2 3 1
+3 4 1
+Sample Output :
+2
+
+#include<bits/stdc++.h>
+#define MAXN 100007
+#define ipair pair<int,int>
+#define mp make_pair
+
+using namespace std;
+
+vector<ipair> graph[MAXN];
+bool visited[MAXN];
+int dist[MAXN];
+
+void djikstra(int n,int source)
+{
+	dist[source]=0;
+	visited[source]=true;
+	
+	priority_queue<ipair,vector<ipair>,greater<ipair>> pq;
+	pq.push(mp(0,source));
+	//first elemement of pair would be weight and second element would be
+	// an index 
+		
+	
+	while(!pq.empty())
+	{
+			int currentnode=pq.top().second;
+			//getting minvertex
+			visited[currentnode]=true;
+			//mark min vertex as visited
+			pq.pop();
+						
+			for(int i=0;i<graph[currentnode].size();i++)
+			{
+				int children=graph[currentnode][i].first;
+				//edge i.e. connected to min vertex
+				
+				int edge_wt=graph[currentnode][i].second;
+				//edge weight b/w minvertesx and other edge
+
+				if(!visited[children])
+				{
+					int wt=dist[currentnode]+edge_wt;
+					if(wt<dist[children])
+					{
+						pq.push(mp(wt,children));
+						dist[children]=wt;
+					}
+				}
+			}
+	}
+}
+
+
+
+int main()
+{
+	int n,m,c,k;	
+	cin>>n>>m>>c>>k;
+	
+	for(int i=0;i<m;i++)
+	{
+		int x,y,w;
+		cin>>x>>y>>w;
+		//pair has edge and weight as its data member
+		graph[x].push_back(mp(y,w));
+		graph[y].push_back(mp(x,w));
+	}
+    
+	//memset some times does't works in large space allocation problems
+		/*memset(dist,INT_MAX,sizeof(dist));
+		 memset(visited,false,sizeof(visited));
+        */
+    for(int i=1;i<=n;i++)
+    {
+        dist[i]=INT_MAX;
+        visited[i]=false;
+    }
+	
+	djikstra(n,c);
+	
+	int count=0;
+	
+	for(int i=1;i<=n;i++)
+	{
+		if(dist[i]<=k)
+			count++;
+	}
+    
+cout<<count;
+return 0;
+}
+
+OLD Solution:
+
+// can you changes here?
+#include<bits/stdc++.h>
+using namespace std;
+#define MAX 100005
+vector<pair<int,int> > Edges[MAX];//pair.first m weight store karenge? ye pata h na aise kyu?
+
+
+void Djikstras(int n,int c,int k)// n no. of vertices that is V
+{
+    
+    int *dist=new int[n+1];// kyuki 1 se start hori h vertices
+    for(int i=0;i<=n;i++)
+        dist[i]=INT_MAX;// infinite hogi sbki distance start m
+    // source ki distance 0 krenge, yaha source vertex c h
+    dist[c]=0;
+    // ab ek priority chahiye jo min weight vertex top p rakhe
+    // by default priority queue largest value pehle rakhti h, to ise change krna padega
+    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>> >  pq;// isme pair type k element store honge
+    // aise ye desceding order m maintain karegi, but hume smallest top p chaiye
+    // ye syntax h ascending order m maintain karvane k liye
+    
+    // ab to djikstras lagni h
+    pq.push({0,c});// source insert karenge loop se pehle
+    while(!pq.empty())
+    {
+        int minVertex=pq.top().second;// second m vertex h and first m weight isme confuse mt hona
+        pq.pop();
+        for(int j=0;j<Edges[minVertex].size();j++)// batao loop kaha tak chalega?j< kiske?no
+        {
+            int adj=Edges[minVertex][j].second;// ye adjacent vertex
+            int weight=Edges[minVertex][j].first;//ye dono k beech ka weight
+            if(dist[adj] > dist[minVertex]+weight)// batao if condition kya hogi?
+            {
+                dist[adj]=dist[minVertex]+weight;
+                // ab ye hume queue m bhi update karna h
+                pq.push({dist[adj],adj});
+            }
+        }
+            
+    }// bas djikstras m itna hi tha
+    // ab count karna h reachable city with distance <=k
+    int result=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(dist[i]<=k)
+            result++;
+    }
+    cout<<result;
+    delete[] dist;
+}
+
+
+int main()
+{
+    int V,E,c,k;
+    cin>>V>>E>>c>>k;
+    
+    for(int i=0;i<E;i++)
+    {
+        int v1,v2,weight;
+        cin>>v1>>v2>>weight;// v1 vertex1 v2 vertex 2 and weight undono k edge ka weight
+        Edges[v1].push_back({weight,v2});// first m weight jayega and 2nd m vertex
+        // pair k liye ya to make_pair() hota varna {} ye braces
+        Edges[v2].push_back({weight,v1});// bidirectional roads h to isliye dono vertex p info add krni padego
+        
+    }
+    Djikstras(V,c,k);// isme hum count print krdenge
+    // yaha tak koi doubt???
+    return 0;
+    
+}
