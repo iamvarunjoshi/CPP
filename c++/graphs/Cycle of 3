@@ -1,0 +1,165 @@
+3 Cycle
+Send Feedback
+Given a graph with N vertices (numbered from 1 to N) and Two Lists (U,V) of size M where (U[i],V[i]) and (V[i],U[i]) are connected by an edge , then count the distinct 3-cycles in the graph. A 3-cycle PQR is a cycle in which (P,Q), (Q,R) and (R,P) are connected an edge.
+Input Format :
+Line 1 : Two integers N and M
+Line 2 : List u of size of M
+Line 3 : List v of size of M
+Return Format :
+The count the number of 3-cycles in the given Graph
+Constraints :
+1<=N<=100
+1<=M<=(N*(N-1))/2
+1<=u[i],v[i]<=N
+Sample Input:
+3 3
+1 2 3
+2 3 1
+Sample Output:
+1
+
+New Solution:
+#include<vector>
+#define MAXN 105
+
+vector<int> graph[MAXN];
+
+int solve(int n,int m,vector<int>u,vector<int>v)
+{
+	int count=0;
+	for(int i=0;i<m;i++)
+	{
+		graph[u[i]].push_back(v[i]);
+		graph[v[i]].push_back(u[i]);
+	}
+	
+	for(int i=1;i<=n;i++)
+	{
+		int node1=i;
+		//lets explore adjacent nodes of node1
+		for(int j=0;j<graph[node1].size();j++)
+		{
+			int node2=graph[node1][j];
+			//I've picked up my second node
+			for(int k=0;k<graph[node2].size();k++)
+			{
+				if(graph[node2][k]==node1)
+					continue;
+				else
+				{
+					int node3=graph[node2][k];
+					for(int I=0;I<graph[node3].size();I++)
+					{
+						if(graph[node3][I]==node2)
+							continue;
+						else if(graph[node3][I]==node1)
+						{
+								count++;
+						}
+					}
+					
+				}
+				
+				
+			}
+			
+		
+		}
+	
+	}
+int ans= count/6;
+return ans;
+}
+
+
+
+Old Solution:
+
+#define NM 105
+vector<int>adj[NM];
+int solve(int n,int m,vector<int>u,vector<int>v)
+{
+    for(int i=0;i<m;i++)
+    {
+        adj[u[i]].push_back(v[i]);
+        adj[v[i]].push_back(u[i]);
+    }
+    
+    int count=0;
+    for(int p1=1;p1<=n;p1++)
+    {
+        for(int j=0;j<adj[p1].size();j++)
+        {
+            int p2=adj[p1][j];
+            if(p2==p1)
+                continue;
+        
+            for(int k=0;k<adj[p2].size();k++)
+            {
+                int p3=adj[p2][k];
+                if(p3==p2 || p1==p3)
+                    continue;
+                for(int i=0;i<adj[p3].size();i++)
+                {
+                    int newadj=adj[p3][i];
+                    if(newadj==p1)
+                        count++;
+                }
+            }
+        }
+    } 
+    int ans= count/6;
+    return ans;
+}
+
+
+Better Solution:
+
+
+#define NM 105
+vector<int>adj[NM];
+int visit[NM];
+
+int solve(int n,int m,vector<int>u,vector<int>v)
+{
+	for(int i=0;i<m;i++)
+	{
+		adj[u[i]].push_back(v[i]);
+		adj[v[i]].push_back(u[i]);
+	}
+	
+	int cycles=0;
+	
+	for(int a=1;a<=n;a++)
+	{
+		for(int j=1;j<=n;j++)
+				visit[j]=0;
+				
+		// I am keeping track of all neighbours of 1		
+		for(int j=0;j<adj[a].size();j++)
+		{
+			visit[adj[a][j]]=1;
+		}
+		// b index of neighbours of a 
+		for(int b=0;b<adj[a].size();b++)
+		{
+			//u is a neighbour of a 
+			//a->u and now visit the neighbours of u
+				int u=adj[a][b];
+				for(int j=0;j<adj[u].size();j++)
+			{
+					int v=adj[u][j];
+					if(v==a)
+						continue;
+					if(visit[v]) // if a,u,v form a cycle :)
+					{
+						cycles++;
+						//means neighbour of u is also neighbour of a
+						//a-->u--->v and this shows that v is also neighbour of a
+					}
+				}
+		}
+	}
+return cycles/6; // A cycle is counted 6 times , (anticlockwise + clockwise )*(from A +
+from U + from V)
+}
