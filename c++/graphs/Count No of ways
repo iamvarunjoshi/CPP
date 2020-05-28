@@ -1,0 +1,160 @@
+Count ways
+Send Feedback
+There exists a special graph which has directed M edges and N nodes and graph contains no cycles. Count the number of ways to reach different nodes from S. A way is called different from others if the destination node or used edges differ. As the ways can be large, print the ways modulo 1000000007.
+Include source node as destination also.
+Input Format:
+Line 1 : Two Integers N and M
+Next M lines : Two integers x, y which denotes an edge from x to y
+(M+1)st line : S, source
+Output Format:
+Count of ways
+Constraints :
+1 <= S, N <= 100005
+1 <= M <= 200005
+1 <= x , y <= N
+Sample Input :
+4 3
+1 2
+2 3
+3 4
+2
+Sample Output :
+3
+Sample Output Explanation :
+From node 2 we can reach - 2, 3 and 4.
+
+Without Dp
+#include<bits/stdc++.h>
+#include<vector>
+#define MAXN 100005
+#define mod 1000000007
+
+using namespace std;
+vector<int> graph[MAXN];
+
+int diffways(int s)
+{
+int count=1;
+for(int i=0;i<graph[s].size();i++)
+{
+count=(count+diffways(graph[s][i]))%mod;
+}
+return count;
+}
+
+
+int main()
+{
+int n,m;
+cin>>n>>m;
+
+for(int i=0;i<m;i++)
+{
+	int x,y;
+	cin>>x>>y;
+	graph[x].push_back(y);
+}
+int source;
+cin>>source;
+int count=diffways(source);
+cout<<count;
+
+return 0;
+
+}
+With Dp:
+#include<bits/stdc++.h>
+#include<vector>
+#define MAXN 100007
+#define mod 1000000007
+
+using namespace std;
+vector<int> graph[MAXN];
+
+
+int diffways(int s,int dp[MAXN])
+{
+int count=1;
+if(dp[s]!=-1)
+    return dp[s];
+    
+for(int i=0;i<graph[s].size();i++)
+{
+count=(count+diffways(graph[s][i],dp))%mod;
+}
+dp[s]=count;    
+return count;
+}
+
+
+int main()
+{
+int n,m;
+cin>>n>>m;
+
+for(int i=0;i<m;i++)
+{
+	int x,y;
+	cin>>x>>y;
+	graph[x].push_back(y);
+}
+int dp[MAXN];    
+int source;
+cin>>source;
+    
+memset(dp,-1,sizeof(dp));   
+    
+int count=diffways(source,dp);
+cout<<count;
+
+return 0;
+
+}
+
+
+
+
+Old Solution:
+
+#include <iostream>
+#include<vector>
+using namespace std;
+vector<int> gp[100006];
+int dp[200005];
+
+
+int dfs(int s)
+{
+    if(dp[s]!=-1)
+        return dp[s];
+        
+    int count=0;
+    for(int i=0;i<gp[s].size();i++)
+    {
+     count=((count+dfs(gp[s][i]))%1000000007);
+        //visit each vertex and add it to the sum
+    }
+    count++;
+    dp[s]=count;
+    return count;
+}
+
+
+int main() {
+	int v, e;
+	cin >> v >> e;
+	
+    for(int i = 0;i < e; i++) {
+		int x, y;
+		cin >> x >> y;
+        gp[x].push_back(y);
+	}
+    int s;
+    cin>>s;
+    for(int i=0;i<200005;i++)
+        dp[i]=-1;
+    
+    int sources=dfs(s);
+    cout<<sources;
+}
+
