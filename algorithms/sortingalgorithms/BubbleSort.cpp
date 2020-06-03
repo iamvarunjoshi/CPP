@@ -1,7 +1,6 @@
 #include <iostream>
 #define MAXN 1000
 using namespace std;
-int temp[MAXN+2];
 
 void bubblesort(int arr[],int ei)
 {
@@ -30,4 +29,6 @@ int main()
 
 	for (int i = 0; i <=MAXN; i++)
 		cout<<arr[i]<<" ";
+	
+	return 0;
 }
