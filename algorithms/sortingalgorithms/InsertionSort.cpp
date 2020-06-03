@@ -29,5 +29,5 @@ int main()
 	for (int i = 0; i <=MAXN; i++)
 		cout<<arr[i]<<" ";
 
-
+return 0;
 }
