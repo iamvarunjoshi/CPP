@@ -1,0 +1,58 @@
+Maximum subarray
+Level HARD
+Given an array of integers, find out and return the maximum sub-array of nonnegative numbers. The sub-array should be continuous. That is, a sub-array created by choosing the second and fourth element and skipping the third element is invalid.
+Maximum sub-array is defined in terms of the sum of the elements in the sub-array. Sub-array A is greater than subarray B if sum(A) > sum(B). And in case if the sum of two subarrays A & B is same, return the subarray with more number of elements.
+
+No need to print the output subarray, you just need to return it.
+
+Input format :
+
+Line 1 : Size of input array
+
+Line 2 : Array elements (separated by space)
+
+Sample Input :
+6
+1 2 5 -7 2 3
+Sample Output :
+1 2 5
+
+#include <vector>
+
+vector<int> maxset(int *arr, int n) {
+
+    int start=0;
+    int tstart=0;
+    int len=0;
+    int tlen=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]>=0)
+        {
+            len++;
+        }
+        else
+        {
+            if(tlen<len)
+            {
+                tlen=len;
+                tstart=start;
+            }
+            len=0;
+            start=i+1;
+        }
+    }
+     	if(tlen<len)
+            {
+                tlen=len;
+                tstart=start;
+            }
+    
+       vector<int>ans;
+    for(int i=0;i<tlen;i++)
+    {
+        ans.push_back(arr[tstart+i]);
+    }
+   return ans;
+}
