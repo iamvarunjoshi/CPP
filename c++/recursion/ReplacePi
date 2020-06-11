@@ -1,0 +1,91 @@
+Replace pi (recursive)
+Send Feedback
+Given a string, compute recursively a new string where all appearances of "pi" have been replaced by "3.14".
+Sample Input 1 :
+xpix
+Sample Output :
+x3.14x
+Sample Input 2 :
+pipi
+Sample Output :
+3.143.14
+Sample Input 3 :
+pip
+Sample Output :
+3.14p
+
+using namespace std;
+#include<cstring>
+#define len strlen
+
+void replacePi(char input[]) {
+
+int n=len(input);    
+if(n<=1)
+    return;
+    
+    
+if(input[0]=='p'&&input[1]=='i')
+{
+    for(int i=n;i>=2;i--)
+    {
+    	input[i+2]=input[i];
+    }
+    input[0]='3';
+    input[1]='.';
+    input[2]='1';
+    input[3]='4';
+    replacePi(input+4);
+}
+    else
+        replacePi(input+1);
+}
+
+
+
+
+/*
+using namespace std;
+#include<cstring>
+void func(string ip,string op);
+
+void replacePi(char input[]) {
+
+if(strlen(input)<=1)    
+    return ;
+    
+    
+    replacePi(input+1);
+    if(input[0]=='p'&&input[1]=='i')
+    {
+        for(int i=strlen(input);i>1;i--)
+        {
+            input[i+2]=input[i];
+        }
+        input[0]='3';
+        input[1]='.';
+        input[2]='1';
+        input[3]='4';
+    }
+    
+    
+    
+}
+
+void func(string ip,string op)
+{
+    if(ip.size()==0)
+    { cout<<op;
+        return ;
+    }
+   if(ip[0]=='p'&&ip[1]=='i')
+   {
+          op=op+"3.14";func(ip.substr(2),op);
+   }
+    else{
+        op=op+ip[0];func(ip.substr(1),op);
+    }
+    
+    
+}
+*/
