@@ -1,0 +1,15 @@
+Searching a Number in BST
+
+    if(!root||root->val==val)
+            return root;
+        // TreeNode *t=root;
+        while(root)
+        {
+            if(val==root->val)
+                return root;
+            else if(val<root->val)
+                root=root->left;
+            else //if(val>root->val)
+                root=root->right;
+        }
+        return NULL;
