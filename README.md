@@ -1,2 +1,2 @@
-# hackerRank_cpp
-This repository contains solution to HackerRank problems that i've solved
+# My Programming Journey
+This repository contains all of the problems that I've solved on various platforms.
