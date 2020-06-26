@@ -1,0 +1,252 @@
+Given an array of integers. Find the Inversion Count in the array. 
+
+Inversion Count : For an array, inversion count indicates how far (or close) the array is from being sorted. If array is already sorted then inversion count is 0. If array is sorted in reverse order that inversion count is the maximum. 
+Formally, two elements a[i] and a[j] form an inversion if a[i] > a[j] and i < j.
+
+Input:
+The first line of input contains an integer T denoting the number of test cases. The first line of each test case is N, the size of array. The second line of each test case contains N space seperated values of the array arr[].
+
+Output:
+Print the inversion count of array.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function inversionCount() which takes the array arr[] and the size of the array as inputs and returns the inversion count of the given array.
+
+Expected Time Complexity: O(nLogn).
+Expected Auxiliary Space: O(n).
+
+Constraints:
+1 ≤ T ≤ 100
+1 ≤ N ≤ 107
+1 ≤ C ≤ 1018
+
+Example:
+Input:
+3
+5
+2 4 1 3 5
+5
+2 3 4 5 6
+3
+10 10 10
+Output:
+3
+0
+0
+
+Explanation:
+Testcase 1: The sequence 2, 4, 1, 3, 5 has three inversions (2, 1), (4, 1), (4, 3).
+Testcase 2: As the sequence is already sorted so there is no inversion count.
+Testcase 3: As all the elements of array are same, so there is no inversion count.
+
+
+
+
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
+
+// Function to find inversion count in the array
+
+// arr[]: Input Array
+// N : Size of the Array arr[]long long countMerge(long long A[], long long l, long long mid, long long h)
+long long countMerge(long long arr[],long long low,long long mid,long long high)
+{
+	int n1=mid-low +1;
+	int n2=high-mid;
+	
+	//copy of left array
+	long long left[n1];
+	//copy of right array
+	long long right[n2];
+	
+	
+	//answer to our insertion problem
+	long long int res=0;
+	
+	int j=0;
+	for(int i=low;i<=mid;i++)
+	    left[j++]=arr[i];
+	
+	j=0;
+	for(int i=mid+1;i<=high;i++)
+		right[j++]=arr[i];
+
+	int i=0,k=low;
+	j=0;
+	
+	while(i<n1&&j<n2)
+	{
+		if(left[i]<=right[j])
+			arr[k++]=left[i++];
+		else 
+		{
+		//arr[j]>arr[i] so jth element will have n1-i inversion as w=it will be smaller than rest of the element of aray 1 
+
+			arr[k++]=right[j++];
+			res+=(n1-i);
+		}
+	}
+	
+	while(i<n1)
+		arr[k++]=left[i++];
+	
+	while(j<n2)
+		arr[k++]=right[j++];
+
+return res;
+}
+
+
+long long countInversion(long long arr[],long long low,long long high)
+{
+	long long int res=0;
+	if(low>=high)
+		return 0;
+	
+	int mid=(low+high)/2;
+	
+	res+=countInversion(arr,low,mid);
+	res+=countInversion(arr,mid+1,high);
+	res+=countMerge(arr,low,mid,high);
+
+return res;	
+}
+
+
+long long int inversionCount(long long arr[], long long n)
+{
+	long long int res = countInversion(arr,0,n-1);
+	return res;
+}
+
+
+
+// { Driver Code Starts.
+
+int main() {
+    
+    long long T;
+    cin >> T;
+    
+    while(T--){
+        long long N;
+        cin >> N;
+        
+        long long A[N];
+        for(long long i = 0;i<N;i++){
+            cin >> A[i];
+        }
+        
+        cout << inversionCount(A,N) << endl;
+    }
+    
+    return 0;
+}
+  // } Driver Code Ends
+  
+  
+  /*
+  
+  // { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+ // } Driver Code Ends
+
+
+// Function to find inversion count in the array
+
+// arr[]: Input Array
+// N : Size of the Array arr[]
+
+long long countMerge(long long A[], long long l, long long mid, long long h)
+{
+	long long n1 = mid-l+1;
+	long long n2 = h - mid;
+	
+	//two sorted arrays	
+	long long left[n1];
+	long long right[n2];	
+	long long int res = 0;
+
+	long long i ,j, k = l;
+	for(i = 0 ; i < n1 ; i++)
+		left[i] = A[l+i];
+
+	for(j = 0 ; j < n2 ; j++)
+		right[j] = A[mid+j+1];
+
+	i = 0, j = 0;
+	while(i < n1 && j < n2)
+	{
+		if(left[i] <= right[j])
+		{
+			A[k++] = left[i++];
+		}
+		else
+		{
+			//arr[j]>arr[i] so jth element will have n1-i inversion as w=it will be smaller than rest of the element of aray 1 
+			A[k++] = right[j++];
+			res += n1-i;
+		}
+	}
+		while(i < n1)
+			A[k++] = left[i++];
+		
+		while(j < n2)
+			A[k++] = right[j++];
+
+	return res;
+}
+//same as merge sort array
+long long int countInversion(long long A[],long long l, long long h)
+{
+	long long int res = 0;
+	if(l < h)
+	{
+		int mid = (l+h)/2;
+
+		res += countInversion(A,l,mid);
+		res += countInversion(A,mid+1,h);
+		res += countMerge(A,l,mid,h);
+	}
+	return res;
+}
+
+
+long long int inversionCount(long long arr[], long long n)
+{
+	long long int res = countInversion(arr,0,n-1);
+	return res;
+}
+
+
+// { Driver Code Starts.
+
+int main() {
+    
+    long long T;
+    cin >> T;
+    
+    while(T--){
+        long long N;
+        cin >> N;
+        
+        long long A[N];
+        for(long long i = 0;i<N;i++){
+            cin >> A[i];
+        }
+        
+        cout << inversionCount(A,N) << endl;
+    }
+    
+    return 0;
+}
+  // } Driver Code Ends
+  */
