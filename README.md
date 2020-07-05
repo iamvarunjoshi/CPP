@@ -1,2 +1,2 @@
 # My Programming Journey
-This repository contains all of the problems that I've solved on various platforms.
+Here's my solutions to various problems, I've encountered on GFG, Leetcode, HackerRank 
