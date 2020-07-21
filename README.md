@@ -1,6 +1,6 @@
 # My Programming Journey
 Here's my solutions to various problems. 
-
+I've encountered various plaforms.
 - GFG
 - Leetcode
 - HackerRank
