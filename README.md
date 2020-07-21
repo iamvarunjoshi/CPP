@@ -3,7 +3,7 @@ Here's my solutions to various problems.
 I've encountered various plaforms.
 - GFG
 - Leetcode
-- HackerRank
+- Hacker Rank
 
 ## [Go to Main Page](https://iamvarunjoshi.github.io/)
 ## [My GFG profile](https://auth.geeksforgeeks.org/user/server_monk/practice/)
