@@ -1,0 +1,86 @@
+Max Sum Rectangle
+Send Feedback
+Given a 2D array, find the maximum sum rectangle in it. In other words find maximum sum over all rectangles in the matrix.
+Input
+First line contains 2 numbers n and m denoting number of rows and number of columns. Next n lines contain m space separated integers denoting elements of matrix nxm.
+Output
+Output a single integer, maximum sum rectangle.
+Constraints
+1<=n,m<=100
+Sample Input
+4 5
+1 2 -1 -4 -20
+-8 -3 4 2 1
+3 8 10 1 3
+-4 -1 1 7 -6
+Sample Output
+29
+
+#include <bits/stdc++.h>
+#include<vector>
+#define inf 1000000000000LL
+#define ll long long int
+
+using namespace std;
+ll M[101][101];
+
+	
+ll kadane(vector<ll>v)
+{
+	int n=v.size();
+	int i;
+    ll me=-inf;
+    ll csum=0;
+	
+	for(int i=0;i<n;i++)
+	{
+		csum+=v[i];
+		me=max(me,csum);
+		if(csum<0)
+		csum=0;
+	}
+return me;
+}
+
+	
+	
+
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+	ll maxsum=-inf;
+    //n is no of row
+    //m is no of columsn
+    
+//n*m
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++)
+            cin>>M[i][j];
+			
+			
+	for(int l=0;l<m;l++)
+	{
+		vector<ll>v(n,0);
+		for(int r=l;r<m;r++)
+		{
+            		int i;
+			for( i=0;i<n;i++)
+				v[i]+=M[i][r];
+				
+				//okay we're updating all the rows of our sum matrix.
+			
+			maxsum=max(maxsum,kadane(v));
+		}
+	}	
+    
+	cout<<maxsum<<endl;
+    return 0;
+}
+
+
+
+
+
+
+
