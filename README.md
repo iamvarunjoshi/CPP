@@ -5,7 +5,8 @@ I've encountered various plaforms.
 - Leetcode
 - Hacker Rank
 
+## [Linkedin](https://www.linkedin.com/in/varun-joshi-32b04916a/)
 ## [Go to Main Page](https://iamvarunjoshi.github.io/)
 ## [My GFG profile](https://auth.geeksforgeeks.org/user/server_monk/practice/)
 ## [HackerRank](https://www.hackerrank.com/varunjoshicdg?hr_r=1)
-## [Linkedin](https://www.linkedin.com/in/varun-joshi-32b04916a/)
+## [LeetCode](https://leetcode.com/server_monk/)
