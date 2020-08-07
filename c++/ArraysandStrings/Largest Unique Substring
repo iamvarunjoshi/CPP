@@ -66,3 +66,22 @@ for(i=0;i<longest_len;i++)
 output[i]='\0';
 
 }
+
+
+/*
+   int lengthOfLongestSubstring(string s) {
+        int res = 0, i = 0, j = -1; // j is not yet included in our sring
+        unordered_map<char, int> m;
+        while (i < s.size()) {
+            if (m.count(s[i]) && m[s[i]] > j) {
+                j = m[s[i]]; // update the index of j
+            }
+            else{
+            m[s[i]] = i;
+            res = max(res, i - j);
+            ++i;
+        }
+        }
+        return res;
+    }
+*/
