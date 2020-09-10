@@ -1,0 +1,120 @@
+Given a non-negative number represented as an array of digits,
+
+add 1 to the number ( increment the number represented by the digits ).
+
+The digits are stored such that the most significant digit is at the head of the list.
+
+Example:
+
+If the vector has [1, 2, 3]
+
+the returned vector should be [1, 2, 4]
+
+as 123 + 1 = 124.
+
+ NOTE: Certain things are intentionally left unclear in this question which you should practice asking the interviewer.
+For example, for this problem, following are some good questions to ask :
+Q : Can the input have 0’s before the most significant digit. Or in other words, is 0 1 2 3 a valid input?
+A : For the purpose of this question, YES
+Q : Can the output have 0’s before the most significant digit? Or in other words, is 0 1 2 4 a valid output?
+A : For the purpose of this question, NO. Even if the input has zeroes before the most significant digit.
+ NOTE: You only need to implement the given function. Do not read input, instead use the arguments to the function. Do not print the output, instead return values as specified. Still have a doubt? Checkout Sample Codes for more details. 
+ 
+My solution:
+vector<int> Solution::plusOne(vector<int> &arr) {
+
+int n=arr.size();
+vector<int>A;
+int count=0;
+
+for(int i=0;i<n;i++)
+{
+    A.push_back(arr[i]);
+}
+
+
+for(int i=0;i<n;i++)
+{
+    if(A[i]!=0)
+        break;
+    else
+        count++;
+}
+if(count!=0)
+{
+    for(int i=count;i<n;i++)
+    {
+        A[i-count]=A[i];
+    }
+    for(int i=0;i<count;i++)
+    {
+        A.pop_back();
+    }
+    if(A.size()==0)
+    {
+        A.push_back(1);
+        return A;
+    }
+    n=n-count;
+}
+
+
+
+int carry=0;
+int i;
+for(i=n-1;i>=0;i--)
+{
+    A[i]++;
+    carry=A[i]/10;
+    A[i]=A[i]%10;
+    if(carry==0)
+        break;
+    if(carry==1&&i==0)
+    {
+        A.push_back(0);
+        for(int j=1;j<A.size();j++)
+        {
+            A[j]=A[j-1];    
+        }
+        A[0]=1;
+    }
+}    
+return A;
+}
+
+
+Optimised Solution::
+
+vector<int> Solution::plusOne(vector<int> &A) {
+int n=A.size();
+vector<int> v;
+
+for(int i=0;i<n;i++){
+v.push_back(A[i]);
+}
+int b=v.size();
+for(int i=b-1;i>=0;i--)
+{
+if(v[i]==9)
+{
+v[i]=0;
+if(i==0)
+{
+v.insert(v.begin(),1);
+break;
+}
+}
+else{
+v[i]+=1;
+break;
+}
+}
+while(v[0]==0)
+{
+v.erase(v.begin());
+}
+
+return v;
+}
+
+

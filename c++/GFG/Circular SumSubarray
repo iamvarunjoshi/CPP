@@ -1,0 +1,78 @@
+Given an array arr[] of N integers arranged in a circular fashion. Your task is to find the maximum contiguous subarray sum.
+
+Input:
+The first line of input contains a single integer T which denotes the number of test cases. The first line of each test case contains a single integer N which denotes the total number of elements. The second line of each test case contains N space-separated integers denoting the elements of the array.
+
+Output:
+For each test case print the maximum sum obtained by adding the consecutive elements.
+
+User Task:
+The task is to complete the function circularSubarraySum() which finds the circular subarray with maximum sum.
+
+Expected Time Complexity: O(N).
+Expected Auxiliary Space: O(1).
+
+Constraints:
+1 <= T <= 101
+1 <= N <= 106
+-106 <= Arr[i] <= 106
+
+Example:
+Input:
+3
+7
+8 -8 9 -9 10 -11 12
+8
+10 -3 -4 7 6 5 -4 -1
+8
+-1 40 -14 7 6 5 -4 -1
+
+Output:
+22
+23
+52
+
+Explanation:
+Testcase 1: Starting from the last element of the array, i.e, 12, and moving in a circular fashion, we have max subarray as 12, 8, -8, 9, -9, 10, which gives maximum sum as 22.
+ int kadane(int a[], int n){
+
+    int ans=INT_MIN;
+    int csum=0;
+    for(int i=0;i<n;i++)
+    {
+        csum=csum+a[i];
+        ans=max(csum,ans);
+        if(csum<0)
+            csum=0;
+    }
+    
+    return ans;
+}
+
+int circularSubarraySum(int a[], int n){
+    int noncircular=kadane(a,n);
+
+    /*
+    Max Cont Sum Subarray would be either 
+    NonCircular +++++++++
+    Circular    ++-----++
+    
+    Only case when it would be circular would be when we have a subarray of max negative sum in the middle
+    To find the other case we will find max negative sum subarray in the middle and remove its sum ffrom total sum
+    +++++ --- ++++
+    
+    */    
+    
+    if(noncircular<0)
+        return noncircular;
+    
+    //find max negative subsequence sum
+    int sum=0;
+    for(int i=0;i<n;i++)
+    {
+        sum+=a[i];
+        a[i]=-a[i];
+    }
+    int circular=kadane(a,n);
+    return max(noncircular,circular+sum);
+}
